@@ -1,4 +1,5 @@
 #include "armazem.hpp"
+#include "pilhaEncadeada.hpp"
 
 PilhaEncadeada::PilhaEncadeada(){
     topo = NULL;
@@ -9,18 +10,18 @@ PilhaEncadeada::~PilhaEncadeada(){
     Limpa();
 }
 
-void PilhaEncadeada::Empilha(TipoItem item){
-    TipoCelula *nova;
+void PilhaEncadeada::Empilha(Pacote item){
+    Pacote *nova;
 
-    nova = new TipoCelula();
+    nova = new Pacote();
     nova->item = item;
     nova->prox = topo;
     topo = nova;
     tamanho++;
-};
+}
 
 
-TipoItem PilhaEncadeada::Desempilha(){
+Pacote PilhaEncadeada::Desempilha(){
     Pacote aux;
     TipoCelula *p;
 
@@ -38,7 +39,7 @@ TipoItem PilhaEncadeada::Desempilha(){
 
 
 void PilhaEncadeada::Limpa(){
-    while(!Vazia())
+    while(!Vazio())
     Desempilha();
 }
 
