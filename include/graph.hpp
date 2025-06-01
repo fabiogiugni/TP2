@@ -23,13 +23,10 @@ class Grafo{
         int GrauMaximo();
 
         void ImprimeVizinhos(int v);
+        void BFS(int inicio);
         
     private:
-        
-        /*  Você deve implementar ListaAdjacencia como um TAD que irá armazenar
-         * os dados do grafo. Lembrando que este TAD deve ser uma lista 
-         * encadeada
-         */
+        bool* visitado;
         ListaAdjacencia vertices;
 };
 
