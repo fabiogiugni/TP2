@@ -28,6 +28,8 @@ class Grafo{
     private:
         bool* visitado;
         ListaAdjacencia vertices;
+        void inicializaVisitados();
+        void liberaVisitados();
 };
 
 #endif

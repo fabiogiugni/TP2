@@ -36,3 +36,44 @@ int Grafo::GrauMaximo(){
 void Grafo::ImprimeVizinhos(int v){
     vertices.listaAdj[v].imprime();
 }
+
+void Grafo::inicializaVisitados() {
+    liberaVisitados();
+    visitado = new bool[vertices.numVertices];
+    for (int i = 0; i < vertices.numVertices; ++i) {
+        visitado[i] = false;
+    }
+}
+
+void Grafo::liberaVisitados() {
+    if (visitado != nullptr) {
+        delete[] visitado;
+        visitado = nullptr;
+    }
+}
+
+void Grafo::BFS(int inicio) {
+    inicializaVisitados();
+
+    Fila fila;
+    visitado[inicio] = true;
+    fila.enfileira(inicio);
+
+    while (!fila.vazia()) {
+        int v = fila.desenfileira();
+        std::cout << v << " ";
+
+        No* atual = vertices.listaAdj[v].primeiro;
+        while (atual != nullptr) {
+            int w = atual->item;
+            if (!visitado[w]) {
+                visitado[w] = true;
+                fila.enfileira(w);
+            }
+            atual = atual->prox;
+        }
+    }
+    std::cout << std::endl;
+
+    liberaVisitados();
+}
