@@ -1,5 +1,4 @@
 #include "graph.hpp"
-#include <cstring>
 
 int main(int argc,char *argv[]){
     const char *operacao = argv[1];

@@ -16,7 +16,7 @@ class ListaAdjacencia{
         void insereVertice();
     private:
         int numVertices;
-        ListaEncadeada* listaAdj;
+        ListaEncadeada<int>* listaAdj;
 
     friend class Grafo;
 };

@@ -1,7 +1,7 @@
 #ifndef FILA_HPP
 #define FILA_HPP
 
-#include "pacote.hpp"
+#include <iostream>
 
 struct NoFila{
     int item;

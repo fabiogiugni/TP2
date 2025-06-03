@@ -3,11 +3,6 @@
 
 #include "listaAdjacencia.hpp"
 
-/*  Você pode inserir os includes necessários para que sua classe funcione.
- * Nenhuma outra alteração neste arquivo é permitida
- */
-
-
 class Grafo{
     public:
         Grafo();
@@ -26,10 +21,7 @@ class Grafo{
         void BFS(int inicio);
         
     private:
-        bool* visitado;
         ListaAdjacencia vertices;
-        void inicializaVisitados();
-        void liberaVisitados();
 };
 
 #endif

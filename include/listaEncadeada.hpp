@@ -3,9 +3,10 @@
 
 #include <iostream>
 
+template <typename T>
 struct No{
-    int item;
-    No* prox;
+    T item;
+    No<T>* prox;
 };
 
 class ListaEncadeada{
@@ -13,16 +14,18 @@ class ListaEncadeada{
         ListaEncadeada();
         ~ListaEncadeada();
     
-        void insereInicio(int item);
-        void insereFinal(int item);
+        void insereInicio(const T& item);
+        void insereFinal(const T& item);
         void imprime();
     
     private:
-        No *primeiro;
-        No *ultimo;
+        No<T> *primeiro;
+        No<T> *ultimo;
         int tamanho;
+    friend class Pacote;
     friend class ListaAdjacencia;
     friend class Grafo;
 };
 
+#include "listaEncadeada.tpp"
 #endif

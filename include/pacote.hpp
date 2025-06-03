@@ -1,26 +1,23 @@
 #ifndef PACOTE_HPP
 #define PACOTE_HPP
 
-#include <iostream>
+#include "listaEncadeada.hpp"
 
-struct Pacote {
-    int item;
-    Pacote *prox;
+struct Alteracao {
+    int tempo;          // instante da alteração
+    int novoEstado;     // novo estado do pacote
 };
 
-class PacoteRota {
+class Pacote {
     public:
-        PacoteRota();
-        ~PacoteRota();
-    
-        void insereInicio(int item);
-        void insereFinal(int item);
-        void imprime();
-    
+        Pacote();
+        ~Pacote();
+
+        void registrarAlteracao(const Alteracao& alt);
     private:
-        No *primeiro;
-        No *ultimo;
-        int tamanhoRota;
+        int estado;
+        ListaEncadeada<int> rota;
+        ListaEncadeada<Alteracao> listaAlteracoes;
     friend class Armazem;
 };
 

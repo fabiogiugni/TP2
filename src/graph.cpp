@@ -37,43 +37,39 @@ void Grafo::ImprimeVizinhos(int v){
     vertices.listaAdj[v].imprime();
 }
 
-void Grafo::inicializaVisitados() {
-    liberaVisitados();
-    visitado = new bool[vertices.numVertices];
-    for (int i = 0; i < vertices.numVertices; ++i) {
-        visitado[i] = false;
-    }
-}
-
-void Grafo::liberaVisitados() {
-    if (visitado != nullptr) {
-        delete[] visitado;
-        visitado = nullptr;
-    }
-}
-
 void Grafo::BFS(int inicio) {
-    inicializaVisitados();
+    int n = vertices.numVertices;
+
+    // Inicializa visitados e distâncias
+    bool* visitado = new bool[n];
+    int* distancia = new int[n];
+
+    for (int i = 0; i < n; ++i) {
+        visitado[i] = false;
+        distancia[i] = -1; // -1 indica vértice ainda não alcançado
+    }
 
     Fila fila;
     visitado[inicio] = true;
+    distancia[inicio] = 0;
     fila.enfileira(inicio);
 
     while (!fila.vazia()) {
         int v = fila.desenfileira();
-        std::cout << v << " ";
+        std::cout << "Visitando vértice " << v << ", distância = " << distancia[v] << std::endl;
 
         No* atual = vertices.listaAdj[v].primeiro;
         while (atual != nullptr) {
             int w = atual->item;
             if (!visitado[w]) {
                 visitado[w] = true;
+                distancia[w] = distancia[v] + 1;
                 fila.enfileira(w);
             }
             atual = atual->prox;
         }
     }
-    std::cout << std::endl;
 
-    liberaVisitados();
+    delete[] visitado;
+    delete[] distancia;
 }
