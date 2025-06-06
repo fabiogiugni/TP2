@@ -19,6 +19,7 @@ class ListaAdjacencia{
         ListaEncadeada<int>* listaAdj;
 
     friend class Grafo;
+    friend class Armazem;
 };
 
 #endif

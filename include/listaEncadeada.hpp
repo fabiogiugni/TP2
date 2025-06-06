@@ -25,6 +25,7 @@ class ListaEncadeada{
     friend class Pacote;
     friend class ListaAdjacencia;
     friend class Grafo;
+    friend class Armazem;
 };
 
 #include "listaEncadeada.tpp"
