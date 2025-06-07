@@ -21,7 +21,7 @@ class Grafo{
         void BFS(int inicio);
         
     private:
-        ListaAdjacencia vertices;
+        ListaAdjacencia Armazens;
 };
 
 #endif

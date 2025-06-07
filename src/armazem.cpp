@@ -1,51 +1,50 @@
 #include "armazem.hpp"
 
-Armazem::Armazem(){
-    topo = NULL;
-    tamanho = 0;
+Armazem::Armazem() {}
+
+Armazem::~Armazem() {
+    // A lista encadeada e as filas são gerenciadas automaticamente
 }
 
-Armazem::~Armazem(){
-    Limpa();
-}
+void Armazem::adicionarPacoteDestino(int destino, const Pacote& pacote) {
+    // Verificar se o destino já existe na lista
+    DestinoSecao* secaoExistente = nullptr;
+    DestinoSecao* atual = listaDestinoSecao.getPrimeiro();
 
-void Armazem::Empilha(Pacote item){
-    TipoCelula *nova;
-
-    nova = new TipoCelula();
-    nova->item = item;
-    nova->prox = topo;
-    topo = nova;
-    tamanho++;
-};
-
-
-Pacote Armazem::Desempilha(){
-    Pacote aux;
-    TipoCelula *p;
-
-    if(tamanho == 0)
-        throw "O armazém está vazio!";
-
-    aux = topo->item;
-    p = topo;
-    topo = topo->prox;
-    delete p;
-    tamanho--;
-
-    return aux;
-};
-
-
-void Armazem::Limpa(){
-    while(!Vazia())
-    Desempilha();
-}
-
-bool Armazem::Vazio(){
-    if(tamanho == 0){
-        return 1;
-    }else{
-        return 0;
+    // Procurar pelo destino na lista
+    while (atual != nullptr) {
+        if (atual->destino == destino) {
+            secaoExistente = atual;
+            break;
+        }
+        atual = atual->prox;
     }
+
+    // Se a seção de destino não existe, cria uma nova
+    if (secaoExistente == nullptr) {
+        DestinoSecao novaSecao;
+        novaSecao.destino = destino;
+        listaDestinoSecao.insereFinal(novaSecao);
+        secaoExistente = listaDestinoSecao.getUltimo();
+    }
+
+    // Adiciona o pacote na fila do destino encontrado ou recém-criado
+    secaoExistente->secao.Enfileira(pacote);
+}
+
+Fila<Pacote>& Armazem::getSecaoDestino(int destino) {
+    // Procurar pelo destino na lista
+    DestinoSecao* atual = listaDestinoSecao.getPrimeiro();
+    while (atual != nullptr) {
+        if (atual->destino == destino) {
+            return atual->secao;  // Retorna a fila de pacotes do destino
+        }
+        atual = atual->prox;
+    }
+
+    // Se o destino não for encontrado, cria e retorna uma nova fila
+    DestinoSecao novaSecao;
+    novaSecao.destino = destino;
+    listaDestinoSecao.insereFinal(novaSecao);
+    return listaDestinoSecao.getUltimo()->secao;  // Retorna a nova fila
 }

@@ -3,21 +3,26 @@
 
 #include <iostream>
 
+template<typename T>
 struct NoFila{
-    int item;
-    NoFila*prox;
+    T item;
+    NoFila* prox;
 };
 
+template<typename T>
 class Fila{
     public:
         Fila();
         ~Fila();
-        void Enfileira(int valor);
-        int Desenfileira();
+        void Enfileira(const T& valor);
+        T Desenfileira();
+        bool vazia() const;
 
     private:
-        NoFila* primeiro;
-        NoFila* ultimo;
+        NoFila<T>* primeiro;
+        NoFila<T>* ultimo;
 };
+
+#include "fila.tpp"
 
 #endif

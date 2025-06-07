@@ -2,6 +2,7 @@
 #define PACOTE_HPP
 
 #include "listaEncadeada.hpp"
+#include "armazem.hpp"
 
 class Pacote {
     public:
@@ -11,7 +12,7 @@ class Pacote {
         void registrarAlteracao(int tempo, int novoEstado, const std::string& descricao);
 
     private:
-        int estado; 
+        int estado;
         /* 
         1- não postado 
         2- chegada escalonada(já anotada) a um armazem 
@@ -21,13 +22,7 @@ class Pacote {
         6- entregue
         */
         ListaEncadeada<int> rota;
-
-        struct Alteracao {
-            int tempo;          // instante da alteração
-            int novoEstado;     // novo estado do pacote
-        };
-        
-        ListaEncadeada<Alteracao> listaAlteracoes;
+        Armazem destino;
     friend class Armazem;
 };
 
