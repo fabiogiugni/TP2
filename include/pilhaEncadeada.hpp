@@ -4,8 +4,9 @@
 #include <iostream>
 #include "pacote.hpp"
 
+template<typename T>
 struct No {
-    Pacote item;
+    T item;
     No* prox;
 };
 

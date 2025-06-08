@@ -2,6 +2,7 @@
 #define LISTAENCADEADA_HPP
 
 #include <iostream>
+#include "listaEncadeada.tpp"
 
 template <typename T>
 struct No{
@@ -9,6 +10,7 @@ struct No{
     No<T>* prox;
 };
 
+template <typename T>
 class ListaEncadeada{
     public:
         ListaEncadeada();
@@ -16,7 +18,8 @@ class ListaEncadeada{
     
         void insereInicio(const T& item);
         void insereFinal(const T& item);
-        void imprime();
+        void imprime() const;
+        int getTamanho() const;
     
     private:
         No<T> *primeiro;
