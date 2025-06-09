@@ -14,7 +14,6 @@ class Escalonador{
     private:
         int tempoAtual;
         Grafo mapaArmazens;
-        Heap 
 };
 
 #endif

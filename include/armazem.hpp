@@ -4,7 +4,8 @@
 #include "pacote.hpp"
 #include "graph.hpp"
 #include "fila.hpp"
-#include "listaEncadeada.hpp"  // Incluindo sua implementação de ListaEncadeada
+#include "listaEncadeada.hpp"
+#include "evento.hpp"
 
 class Armazem {
 public:
@@ -20,19 +21,14 @@ public:
 private:
     // Lista encadeada para associar destinos a filas de pacotes
     struct DestinoSecao {
-        int destino;         // Destino (número do vértice)
-        Fila<Pacote> secao; // Fila de pacotes para esse destino
+        int destino;    //Destino (número do vértice)
+        Fila<Pacote> secao;
     };
 
     // Lista encadeada que vai armazenar as seções para cada destino
     ListaEncadeada<DestinoSecao> listaDestinoSecao;
-
-    struct Alteracao {
-        int tempo;          // instante da alteração
-        int novoEstado;     // novo estado do pacote
-    };
     
-    ListaEncadeada<Alteracao> listaAlteracoes; // evento de armazenamento
+    ListaEncadeada<Evento> listaAlteracoes; // evento de armazenamento
 };
 
 #endif
