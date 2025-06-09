@@ -31,5 +31,4 @@ class ListaEncadeada{
     friend class Armazem;
 };
 
-#include "listaEncadeada.tpp"
 #endif

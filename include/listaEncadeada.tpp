@@ -1,4 +1,5 @@
 #include <iostream>
+#include "listaEncadeada.hpp"
 
 template<typename T>
 ListaEncadeada<T>::ListaEncadeada() : primeiro(nullptr), ultimo(nullptr), tamanho(0) {}
