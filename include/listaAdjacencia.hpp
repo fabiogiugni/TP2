@@ -17,7 +17,7 @@ class ListaAdjacencia{
     private:
         int numVertices;
         ListaEncadeada<int>* listaAdj;
-
+    friend class Fila;
     friend class Grafo;
     friend class Armazem;
 };

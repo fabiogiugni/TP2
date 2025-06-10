@@ -10,10 +10,10 @@ class Escalonador{
     public:
         Escalonador();
         ~Escalonador();
-    
+        void InsereVertice();
     private:
         int tempoAtual;
-        Grafo mapaArmazens;
+        Grafo mapa;
 };
 
 #endif

@@ -2,6 +2,7 @@
 #define GRAPH_HPP
 
 #include "listaAdjacencia.hpp"
+#include "fila.hpp"
 
 class Grafo{
     public:
@@ -18,10 +19,10 @@ class Grafo{
         int GrauMaximo();
 
         void ImprimeVizinhos(int v);
-        void BFS(int inicio);
+        void BFS(int inicio, int destino);
         
     private:
-        ListaAdjacencia Armazens;
+        ListaAdjacencia vertices;
 };
 
 #endif

@@ -4,9 +4,9 @@
 #include <iostream>
 
 template<typename T>
-struct NoFila{
+struct No{
     T item;
-    NoFila* prox;
+    No<T>* prox;
 };
 
 template<typename T>
@@ -19,8 +19,9 @@ class Fila{
         bool vazia() const;
 
     private:
-        NoFila<T>* primeiro;
-        NoFila<T>* ultimo;
+        No<T>* primeiro;
+        No<T>* ultimo;
+    friend class Grafo;
 };
 
 #include "fila.tpp"

@@ -1,11 +1,11 @@
 #include "listaAdjacencia.hpp"
 
 ListaAdjacencia::ListaAdjacencia(){
-    listaAdj = new ListaEncadeada[0];
+    listaAdj = new ListaEncadeada<int>[0];
 }
 
 ListaAdjacencia::ListaAdjacencia(int vertices) : numVertices(vertices){
-    listaAdj = new ListaEncadeada[numVertices];
+    listaAdj = new ListaEncadeada<int>[numVertices];
 }
 
 ListaAdjacencia::~ListaAdjacencia(){
@@ -47,7 +47,7 @@ void ListaAdjacencia::imprimeVizinhos(){
 
 void ListaAdjacencia::insereVertice(){
     // Aloca novo array com tamanho maior
-    ListaEncadeada *novaListaAdj = new ListaEncadeada[numVertices + 1];
+    ListaEncadeada<int> *novaListaAdj = new ListaEncadeada<int>[numVertices + 1];
 
     // Copia as listas de adjacência antigas para o novo array
     for (int i = 0; i < numVertices; i++){
