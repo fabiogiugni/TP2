@@ -1,8 +1,8 @@
-#include "Pacote.hpp"
-
 #include "pacote.hpp"
 
-Pacote::Pacote() : estado(0), rota(), listaAlteracoes() {}
+Pacote::Pacote(int tempo, int ident, int org, int dest, Grafo mapa) : tempoChegada(tempo), id(ident), armazemOrigem(org), armazemDestino(dest) {
+
+}
 
 Pacote::~Pacote() {
     // Não precisa de ação manual aqui, pois a ListaEncadeada cuida da destruição

@@ -11,9 +11,9 @@ class Escalonador{
         Escalonador();
         ~Escalonador();
         void InsereVertice();
+        Grafo mapa;
     private:
         int tempoAtual;
-        Grafo mapa;
 };
 
 #endif

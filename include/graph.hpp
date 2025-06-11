@@ -23,6 +23,7 @@ class Grafo{
         
     private:
         ListaAdjacencia vertices;
+        Armazem armazem;//como os armazens são vertices, faz sentido pertencerem a grafo.
 };
 
 #endif

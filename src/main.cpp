@@ -6,8 +6,9 @@
 
 int main(int argc,char *argv[]){
 
+    int tempo = 0;
+
     Escalonador escal;
-    Grafo mapaArmazens;
 
     // Cria um objeto ifstream para abrir o arquivo
     std::ifstream arquivo("exemplo.txt");
@@ -30,19 +31,35 @@ int main(int argc,char *argv[]){
     arquivo>>numeroArmazens;
 
     for(int i = 0; i < numeroArmazens; i++){
-        mapaArmazens.InsereVertice();
+        escal.mapa.InsereVertice();
         for(int j = 0; j < numeroArmazens; j++){
             int temAresta = 0;
             arquivo>>temAresta;
             if(!temAresta){
-                mapaArmazens.InsereAresta(i,j);
+                escal.mapa.InsereAresta(i,j);
             }
         }
     }
-    
-    /*
-    1- Recebe grafo de armazens e postagem de pacotes
-    2- Pacotes a serem enviados
-    3- Inicialização do relojo, de tudo...
-    */
+
+    int numeroPacotes = 0;
+    arquivo>>numeroPacotes;
+
+    for(int i = 0; i < numeroPacotes; i++){
+        int tempo = 0;
+        std::cin>>tempo;
+        std::string pac;
+        std::cin >> pac;  // Lê e ignora a palavra "pac"
+        int id = 0;
+        std::string org;
+        std::cin >> org;  // Lê e ignora a palavra "org"
+        int orgn = 0;
+        std::cin>>orgn;
+        std::string dst;
+        std::cin >> dst;  // Lê e ignora a palavra "dst"
+        int dest = 0;
+        std::cin>>dest;
+        Pacote p(tempo,id,orgn,dest,escal.mapa);
+    }
+
+
 }

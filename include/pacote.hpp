@@ -6,13 +6,15 @@
 
 class Pacote {
     public:
-        Pacote();
+        Pacote(int tempo, int ident, int org, int dest, Grafo mapa);
         ~Pacote();
 
         void registrarAlteracao(int tempo, int novoEstado, const std::string& descricao);
-
     private:
-        int estado;
+        int tempoChegada;
+        int id;
+        int armazemOrigem;
+        int armazemDestino;
         /* 
         1- não postado 
         2- chegada escalonada(já anotada) a um armazem 
