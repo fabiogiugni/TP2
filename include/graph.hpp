@@ -2,28 +2,28 @@
 #define GRAPH_HPP
 
 #include "listaAdjacencia.hpp"
-#include "fila.hpp"
+#include "armazem.hpp"
 
-class Grafo{
-    public:
-        Grafo();
-        ~Grafo();
+class Grafo {
+public:
+    Grafo();
+    ~Grafo();
 
-        void InsereVertice();
-        void InsereAresta(int v, int w);
+    void InsereVertice();
+    void InsereAresta(int v, int w);  
 
-        int QuantidadeVertices();
-        int QuantidadeArestas();
+    int QuantidadeVertices();
+    int QuantidadeArestas();
 
-        int GrauMinimo();
-        int GrauMaximo();
+    int GrauMinimo();
+    int GrauMaximo();
 
-        void ImprimeVizinhos(int v);
-        void BFS(int inicio, int destino);
-        
-    private:
-        ListaAdjacencia vertices;
-        Armazem armazem;//como os armazens são vertices, faz sentido pertencerem a grafo.
+    void ImprimeVizinhos(int v);
+    ListaEncadeada<Armazem> BFS(Pacote& p);
+
+private:
+    ListaAdjacencia vertices;  // Lista de adjacência
+    friend class Transporte;
 };
 
 #endif

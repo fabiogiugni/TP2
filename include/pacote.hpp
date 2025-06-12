@@ -6,10 +6,13 @@
 
 class Pacote {
     public:
-        Pacote(int tempo, int ident, int org, int dest, Grafo mapa);
+        Pacote(int tempo, int ident, int org, int dest);
         ~Pacote();
-
+        int getOrigem();
+        int getId();
+        int getDestino();
         void registrarAlteracao(int tempo, int novoEstado, const std::string& descricao);
+        void setRota(ListaEncadeada<Armazem> rota);
     private:
         int tempoChegada;
         int id;
@@ -23,9 +26,11 @@ class Pacote {
         5- alocado para transporte 
         6- entregue
         */
-        ListaEncadeada<int> rota;
+        ListaEncadeada<Armazem> rota;
         Armazem destino;
     friend class Armazem;
+    friend class Grafo;
+    friend class Transporte;
 };
 
 #endif

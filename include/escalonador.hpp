@@ -3,6 +3,7 @@
 
 #include "heap.hpp"
 #include "graph.hpp"
+#include "evento.hpp"
 
 //fila de prioridade
 
@@ -11,7 +12,7 @@ class Escalonador{
         Escalonador();
         ~Escalonador();
         void InsereVertice();
-        Grafo mapa;
+        void PostagemPacote(const Pacote&p);
     private:
         int tempoAtual;
 };

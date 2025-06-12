@@ -2,7 +2,6 @@
 #define LISTAENCADEADA_HPP
 
 #include <iostream>
-#include "listaEncadeada.tpp"
 
 template <typename T>
 struct No{

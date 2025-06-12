@@ -27,19 +27,25 @@ int main(int argc,char *argv[]){
     arquivo>>intervaloTransportes;
     int custoRemocao = 0;
     arquivo>>custoRemocao;
+
+    Grafo mapaArm;
+
     int numeroArmazens = 0;
     arquivo>>numeroArmazens;
 
     for(int i = 0; i < numeroArmazens; i++){
-        escal.mapa.InsereVertice();
+        mapaArm.InsereVertice();
         for(int j = 0; j < numeroArmazens; j++){
             int temAresta = 0;
             arquivo>>temAresta;
-            if(!temAresta){
-                escal.mapa.InsereAresta(i,j);
+            if(temAresta == 1){
+                mapaArm.InsereAresta(i,j);
             }
         }
     }
+    Transporte transp(capacidadeTransporte, latenciaTransporte, intervaloTransportes, mapaArm);
+
+    Armazem armVec = new Armazem[numeroArmazens];//resolver
 
     int numeroPacotes = 0;
     arquivo>>numeroPacotes;
@@ -58,7 +64,8 @@ int main(int argc,char *argv[]){
         std::cin >> dst;  // Lê e ignora a palavra "dst"
         int dest = 0;
         std::cin>>dest;
-        Pacote p(tempo,id,orgn,dest,escal.mapa);
+        Pacote p(tempo,id,orgn,dest);
+        transp.calculaRota(p);
     }
 
 

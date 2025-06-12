@@ -1,9 +1,13 @@
 #include "armazem.hpp"
 
-Armazem::Armazem() {}
+Armazem::Armazem(int id): id(id) {}
 
 Armazem::~Armazem() {
     // A lista encadeada e as filas são gerenciadas automaticamente
+}
+
+int Armazem::getId(){
+    return id;
 }
 
 void Armazem::adicionarPacoteDestino(int destino, const Pacote& pacote) {

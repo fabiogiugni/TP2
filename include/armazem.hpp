@@ -9,16 +9,16 @@
 
 class Armazem {
 public:
-    Armazem();
+    Armazem(int id);
     ~Armazem();
-
-    // Método para adicionar pacotes na seção de destino
-    void adicionarPacoteDestino(int destino, const Pacote& pacote);
     
     // Método para acessar a fila de pacotes de um destino específico
     Fila<Pacote>& getSecaoDestino(int destino);
+    void inserePacote(Pacote p);
+    int getId();
 
 private:
+    int id;
     // Lista encadeada para associar destinos a filas de pacotes
     struct DestinoSecao {
         int destino;    //Destino (número do vértice)
@@ -27,8 +27,6 @@ private:
 
     // Lista encadeada que vai armazenar as seções para cada destino
     ListaEncadeada<DestinoSecao> listaDestinoSecao;
-    
-    ListaEncadeada<Evento> listaAlteracoes; // evento de armazenamento
 };
 
 #endif
