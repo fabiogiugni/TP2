@@ -1,22 +1,38 @@
 #include "listaAdjacencia.hpp"
 
+// Construtor sem parâmetros
 ListaAdjacencia::ListaAdjacencia(){
-    listaAdj = new ListaEncadeada<Armazem>[0];  // Agora aloca uma lista de objetos `Armazem`
+    listaAdj = nullptr;  // Inicializa a lista de adjacências como null
+    numVertices = 0;  // Inicializa o número de vértices como 0
 }
 
-ListaAdjacencia::ListaAdjacencia(int vertices) : numVertices(vertices){
-    listaAdj = new ListaEncadeada<Armazem>[numVertices];  // Aloca lista de armazéns diretamente
+// Construtor com número de vértices
+ListaAdjacencia::ListaAdjacencia(int vertices) : numVertices(vertices) {
+    listaAdj = new ListaEncadeada<Armazem*>[numVertices];  // Aloca a lista de adjacências com ponteiros para Armazem
 }
 
-ListaAdjacencia::~ListaAdjacencia(){
-    delete[] listaAdj;  // Não precisa deletar objetos `Armazem` individualmente
+// Destruidor
+ListaAdjacencia::~ListaAdjacencia() {
+    // Desaloca a memória de todos os armazéns
+    for (int i = 0; i < numVertices; ++i) {
+        for (No<Armazem*>* atual = listaAdj[i].primeiro; atual != nullptr; atual = atual->prox) {
+            delete atual->item;  // Apaga o objeto Armazem alocado dinamicamente
+        }
+    }
+    delete[] listaAdj;  // Desaloca a memória do array de listas de adjacências
 }
 
+// Insere aresta entre os vértices v e w
 void ListaAdjacencia::insereAresta(int v, int w) {
-    Armazem armazemDestino(w);  // Cria o armazém com o ID `w`
-    listaAdj[v].insereFinal(armazemDestino);  // Insere diretamente o objeto `Armazem`
+    Armazem* armazemDestino = new Armazem(w);  // Cria um ponteiro para o armazém com id `w`
+    listaAdj[v].insereFinal(armazemDestino);  // Insere o ponteiro do armazém na lista de adjacência de v
+
+    // Para um grafo não direcionado, insere também a aresta inversa
+    armazemDestino = new Armazem(v);  // Cria o armazém com id `v`
+    listaAdj[w].insereFinal(armazemDestino);  // Insere o ponteiro do armazém na lista de adjacência de w
 }
 
+// Retorna o grau mínimo dos vértices
 int ListaAdjacencia::grauMinimo() {
     int min = listaAdj[0].tamanho;
     int atual = 0;
@@ -28,6 +44,7 @@ int ListaAdjacencia::grauMinimo() {
     return min;
 }
 
+// Retorna o grau máximo dos vértices
 int ListaAdjacencia::grauMaximo() {
     int max = listaAdj[0].tamanho;
     int atual = 0;
@@ -39,21 +56,23 @@ int ListaAdjacencia::grauMaximo() {
     return max;
 }
 
+// Imprime os vizinhos (armazéns) de cada vértice
 void ListaAdjacencia::imprimeVizinhos() {
     for (int i = 0; i < numVertices; i++) {
         std::cout << "Vértice " << i << ": ";
         
-        // Agora imprime o Armazém associado
-        for (No<Armazem>* atual = listaAdj[i].primeiro; atual != nullptr; atual = atual->prox) {
-            std::cout << "Armazém: " << atual->item.getId() << " ";  // Acessa diretamente o ID do Armazém
+        // Agora imprime o ID do armazém associado
+        for (No<Armazem*>* atual = listaAdj[i].primeiro; atual != nullptr; atual = atual->prox) {
+            std::cout << "Armazém: " << atual->item->getId() << " ";  // Acessa diretamente o ID do Armazém
         }
         std::cout << std::endl;
     }
 }
 
+// Insere um novo vértice
 void ListaAdjacencia::insereVertice() {
     // Aloca novo array com tamanho maior
-    ListaEncadeada<Armazem>* novaListaAdj = new ListaEncadeada<Armazem>[numVertices + 1];
+    ListaEncadeada<Armazem*>* novaListaAdj = new ListaEncadeada<Armazem*>[numVertices + 1];
 
     // Copia as listas de adjacência antigas para o novo array
     for (int i = 0; i < numVertices; i++) {
@@ -68,4 +87,10 @@ void ListaAdjacencia::insereVertice() {
     ++numVertices;
 }
 
-void ListaAdjacencia::inserePacote()
+void ListaAdjacencia::inserePacote(Pacote* p) {
+    // Acesse o armazém correspondente ao nó de origem do pacote
+    Armazem* armazemDestino = listaAdj[p->getOrigem()].primeiro->item;
+    
+    // Insira o pacote no armazém
+    armazemDestino->inserePacote(*p);  // Desreferencia o ponteiro para passar o pacote
+}

@@ -3,6 +3,7 @@
 
 #include "pacote.hpp"
 #include "graph.hpp"
+#include "evento.hpp"
 
 class Transporte{
     public:
@@ -12,8 +13,9 @@ class Transporte{
         void insereVertice();
 
         // Método para adicionar pacotes na seção de origem
-        void adicionarPacoteOrigem(Pacote pacote);
-        void calculaRota(Pacote& p);
+        void adicionarPacoteOrigem(Pacote* pacote);
+        void avancarPacote(Pacote* p);
+        void calculaRota(Pacote* p);
         
     private:
         struct Alteracao {

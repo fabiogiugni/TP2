@@ -6,13 +6,17 @@
 
 class Pacote {
     public:
+        Pacote();
         Pacote(int tempo, int ident, int org, int dest);
         ~Pacote();
         int getOrigem();
         int getId();
         int getDestino();
-        void registrarAlteracao(int tempo, int novoEstado, const std::string& descricao);
-        void setRota(ListaEncadeada<Armazem> rota);
+        void setRota(ListaEncadeada<Armazem> novaRota);
+        void avancarRota();  // Avança para o próximo armazém
+        Armazem getProximoArmazem() const;  // Acessa o próximo armazém (sem remover)
+        bool chegouAoDestino() const;       // Verifica se a rota acabou
+
     private:
         int tempoChegada;
         int id;
@@ -27,7 +31,6 @@ class Pacote {
         6- entregue
         */
         ListaEncadeada<Armazem> rota;
-        Armazem destino;
     friend class Armazem;
     friend class Grafo;
     friend class Transporte;

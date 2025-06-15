@@ -19,7 +19,7 @@ public:
     int GrauMaximo();
 
     void ImprimeVizinhos(int v);
-    ListaEncadeada<Armazem> BFS(Pacote& p);
+    ListaEncadeada<Armazem> BFS(int origem, int destino);
 
 private:
     ListaAdjacencia vertices;  // Lista de adjacência

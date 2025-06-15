@@ -19,6 +19,9 @@ class ListaEncadeada{
         void insereFinal(const T& item);
         void imprime() const;
         int getTamanho() const;
+        T getPrimeiro() const;
+        void removeInicio();
+
     
     private:
         No<T> *primeiro;
@@ -28,6 +31,7 @@ class ListaEncadeada{
     friend class ListaAdjacencia;
     friend class Grafo;
     friend class Armazem;
+    friend class Transporte;
 };
 
 #endif

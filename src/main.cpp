@@ -45,8 +45,6 @@ int main(int argc,char *argv[]){
     }
     Transporte transp(capacidadeTransporte, latenciaTransporte, intervaloTransportes, mapaArm);
 
-    Armazem armVec = new Armazem[numeroArmazens];//resolver
-
     int numeroPacotes = 0;
     arquivo>>numeroPacotes;
 
@@ -65,7 +63,6 @@ int main(int argc,char *argv[]){
         int dest = 0;
         std::cin>>dest;
         Pacote p(tempo,id,orgn,dest);
-        transp.calculaRota(p);
     }
 
 

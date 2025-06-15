@@ -1,29 +1,26 @@
 #ifndef PILHAENCADEADAA_HPP
 #define PILHAENCADEADAA_HPP
 
-#include <iostream>
 #include "pacote.hpp"
-
-template<typename T>
-struct No {
-    T item;
-    No* prox;
-};
+#include "listaEncadeada.hpp"
 
 
-class PilhaEncadeada{
+class PilhaEncadeada {
     public:
         PilhaEncadeada();
         ~PilhaEncadeada();
-    
-        void Empilha(Pacote item);
+
+        void Empilha(const Pacote& item);
         Pacote Desempilha();
         void Limpa();
-        bool Vazio();
-    
+        bool Vazio() const;
+        bool removePacotePorId(int id);  // remove pacote específico pelo ID
+
+
     private:
-        Pacote *topo;
+        No<Pacote>* topo;
         int tamanho;
+friend class Transporte;
 };
 
 #endif

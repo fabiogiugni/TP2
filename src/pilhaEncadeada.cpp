@@ -1,52 +1,63 @@
-#include "armazem.hpp"
 #include "pilhaEncadeada.hpp"
+#include <stdexcept>  // Para lançar exceções
 
-PilhaEncadeada::PilhaEncadeada(){
-    topo = NULL;
-    tamanho = 0;
-}
+PilhaEncadeada::PilhaEncadeada() : topo(nullptr), tamanho(0) {}
 
-PilhaEncadeada::~PilhaEncadeada(){
+PilhaEncadeada::~PilhaEncadeada() {
     Limpa();
 }
 
-void PilhaEncadeada::Empilha(Pacote item){
-    Pacote *nova;
-
-    nova = new Pacote();
-    nova->item = item;
-    nova->prox = topo;
-    topo = nova;
+void PilhaEncadeada::Empilha(const Pacote& item) {
+    No<Pacote>* novo = new No<Pacote>;
+    novo->item = item;
+    novo->prox = topo;
+    topo = novo;
     tamanho++;
 }
 
+bool PilhaEncadeada::removePacotePorId(int id) {
+    PilhaEncadeada auxiliar;
+    bool encontrado = false;
 
-Pacote PilhaEncadeada::Desempilha(){
-    Pacote aux;
-    TipoCelula *p;
+    // Desempilha até encontrar ou esvaziar
+    while (!Vazio()) {
+        Pacote topoAtual = Desempilha();
+        if (topoAtual.getId() == id) {
+            encontrado = true;  // Não empilha novamente
+            break;
+        }
+        auxiliar.Empilha(topoAtual);
+    }
 
-    if(tamanho == 0)
-        throw "O armazém está vazio!";
+    // Reempilha os outros na pilha original
+    while (!auxiliar.Vazio()) {
+        Empilha(auxiliar.Desempilha());
+    }
 
-    aux = topo->item;
-    p = topo;
-    topo = topo->prox;
-    delete p;
-    tamanho--;
-
-    return aux;
-};
-
-
-void PilhaEncadeada::Limpa(){
-    while(!Vazio())
-    Desempilha();
+    return encontrado;
 }
 
-bool PilhaEncadeada::Vazio(){
-    if(tamanho == 0){
-        return 1;
-    }else{
-        return 0;
+
+Pacote PilhaEncadeada::Desempilha() {
+    if (Vazio()) {
+        throw std::runtime_error("Erro: tentativa de desempilhar de uma pilha vazia.");
     }
+
+    No<Pacote>* temp = topo;
+    Pacote itemRemovido = temp->item;
+    topo = topo->prox;
+    delete temp;
+    tamanho--;
+
+    return itemRemovido;
+}
+
+void PilhaEncadeada::Limpa() {
+    while (!Vazio()) {
+        Desempilha();
+    }
+}
+
+bool PilhaEncadeada::Vazio() const {
+    return topo == nullptr;
 }

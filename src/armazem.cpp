@@ -1,5 +1,7 @@
 #include "armazem.hpp"
 
+Armazem::Armazem() : id(-1) {}
+
 Armazem::Armazem(int id): id(id) {}
 
 Armazem::~Armazem() {
@@ -10,45 +12,36 @@ int Armazem::getId(){
     return id;
 }
 
-void Armazem::adicionarPacoteDestino(int destino, const Pacote& pacote) {
-    // Verificar se o destino já existe na lista
-    DestinoSecao* secaoExistente = nullptr;
-    DestinoSecao* atual = listaDestinoSecao.getPrimeiro();
-
-    // Procurar pelo destino na lista
-    while (atual != nullptr) {
-        if (atual->destino == destino) {
-            secaoExistente = atual;
-            break;
-        }
-        atual = atual->prox;
-    }
-
-    // Se a seção de destino não existe, cria uma nova
-    if (secaoExistente == nullptr) {
-        DestinoSecao novaSecao;
-        novaSecao.destino = destino;
-        listaDestinoSecao.insereFinal(novaSecao);
-        secaoExistente = listaDestinoSecao.getUltimo();
-    }
-
-    // Adiciona o pacote na fila do destino encontrado ou recém-criado
-    secaoExistente->secao.Enfileira(pacote);
+void Armazem::inserePacote(Pacote p) {
+    int prox = p.getProximoArmazem().id;
+    getSecaoDestino(prox).Empilha(p);
 }
 
-Fila<Pacote>& Armazem::getSecaoDestino(int destino) {
-    // Procurar pelo destino na lista
-    DestinoSecao* atual = listaDestinoSecao.getPrimeiro();
-    while (atual != nullptr) {
-        if (atual->destino == destino) {
-            return atual->secao;  // Retorna a fila de pacotes do destino
+
+PilhaEncadeada& Armazem::getSecaoDestino(int destino) {
+    for (No<DestinoSecao>* atual = listaDestinoSecao.primeiro; atual != nullptr; atual = atual->prox) {
+        if (atual->item.destino == destino) {
+            return atual->item.secao;
         }
-        atual = atual->prox;
     }
 
-    // Se o destino não for encontrado, cria e retorna uma nova fila
-    DestinoSecao novaSecao;
-    novaSecao.destino = destino;
-    listaDestinoSecao.insereFinal(novaSecao);
-    return listaDestinoSecao.getUltimo()->secao;  // Retorna a nova fila
+    // Se não encontrou, cria uma nova seção
+    DestinoSecao nova;
+    nova.destino = destino;
+    listaDestinoSecao.insereFinal(nova);
+
+    return listaDestinoSecao.ultimo->item.secao;
+}
+
+bool Armazem::removerPacote(int destino, int pacoteId) {
+    // Percorre a lista de destinos e seções
+    for (No<DestinoSecao>* atual = listaDestinoSecao.primeiro; atual != nullptr; atual = atual->prox) {
+        if (atual->item.destino == destino) {
+            // Encontrou a seção de destino. Agora remove o pacote da pilha (seção)
+            return atual->item.secao.removePacotePorId(pacoteId);  // Remove o pacote pela ID na pilha
+        }
+    }
+
+    // Se não encontrou a seção, retorna false
+    return false;
 }

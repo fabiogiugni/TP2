@@ -40,75 +40,65 @@ void Grafo::ImprimeVizinhos(int v) {
 }
 
 
-ListaEncadeada<Armazem> Grafo::BFS(Pacote& p) {
+ListaEncadeada<Armazem> Grafo::BFS(int origem, int destino) {
     int n = vertices.numVertices;
 
-    // Inicializa visitados, distâncias e predecessores
+    // Inicializa vetores auxiliares
     bool* visitado = new bool[n];
     int* distancia = new int[n];
-    int* predecessor = new int[n];  // Vetor para armazenar o caminho (predecessores)
+    int* predecessor = new int[n];
 
-    // Inicializa as variáveis
     for (int i = 0; i < n; ++i) {
         visitado[i] = false;
-        distancia[i] = -1;  // -1 significa não alcançado
-        predecessor[i] = -1;  // -1 significa que não há predecessor
+        distancia[i] = -1;
+        predecessor[i] = -1;
     }
 
-    // Cria a fila de BFS e adiciona o ponto de início
+    // Fila de BFS
     Fila<int> fila;
-    visitado[p.armazemOrigem] = true;
-    distancia[p.armazemOrigem] = 0;
-    fila.Enfileira(p.armazemOrigem);  // Enfileira o armazém de origem
+    visitado[origem] = true;
+    distancia[origem] = 0;
+    fila.Enfileira(origem);
 
-    // Realiza a BFS
+    // Busca em largura
     while (!fila.vazia()) {
-        int v = fila.Desenfileira();  // Remove o vértice da fila
+        int v = fila.Desenfileira();
         No<Armazem*>* atual = vertices.listaAdj[v].primeiro;
-        
-        // Percorre os vizinhos do vértice
+
         while (atual != nullptr) {
-            Armazem* w = atual->item;  // Vértice vizinho
-            if (!visitado[w->getId()]) {  // Se o vizinho ainda não foi visitado
-                visitado[w->getId()] = true;
-                distancia[w->getId()] = distancia[v] + 1;
-                predecessor[w->getId()] = v;  // Armazena de onde veio (v)
-                fila.Enfileira(w->getId());  // Enfileira o vizinho
+            Armazem* w = atual->item;
+            int idW = w->getId();
+            if (!visitado[idW]) {
+                visitado[idW] = true;
+                distancia[idW] = distancia[v] + 1;
+                predecessor[idW] = v;
+                fila.Enfileira(idW);
             }
             atual = atual->prox;
         }
     }
 
-    // Agora vamos reconstruir a rota do pacote diretamente no atributo `rota` do pacote
     ListaEncadeada<Armazem> rota;
-    int destino = p.armazemDestino;  // O destino é o armazém de destino do pacote
 
-    // Se o destino não foi alcançado, não podemos calcular a rota
+    // Se destino não foi alcançado
     if (distancia[destino] == -1) {
-        std::cout << "Vértice " << destino << " não é alcançável a partir de " << p.armazemOrigem << std::endl;
+        std::cout << "Destino " << destino << " não alcançável a partir de " << origem << "\n";
         delete[] visitado;
         delete[] distancia;
         delete[] predecessor;
-        return rota;  // Retorna uma lista vazia
+        return rota;  // Vazio
     }
 
-    // Reconstruir a rota a partir dos predecessores e preencher o atributo `rota` do pacote
+    // Reconstrói rota do destino até a origem usando predecessor[]
     for (int v = destino; v != -1; v = predecessor[v]) {
-        // Pega o armazém correspondente ao índice
-        Armazem* armazem = vertices.listaAdj[v].primeiro->item;  
-        
-        // Cria uma cópia do armazém e adiciona à rota
-        Armazem armazemCopia(*armazem);  // Cria uma cópia do armazém
-        rota.insereInicio(armazemCopia);  // Adiciona a cópia à lista de rota
+        Armazem* a = vertices.listaAdj[v].primeiro->item;  // Pegamos o primeiro da lista, que é o próprio vértice
+        Armazem copia(*a);  // Fazemos cópia (pois a lista espera Armazem, não ponteiro)
+        rota.insereInicio(copia);
     }
 
-    // Atualiza diretamente o atributo `rota` do pacote com a rota calculada
-    p.rota = rota;
-
-    // Libera a memória dos arrays de controle
     delete[] visitado;
     delete[] distancia;
     delete[] predecessor;
 
-    return rota;  // Retorna a rota calculada (opcional, já que o pacote já tem a rota)
+    return rota;
 }

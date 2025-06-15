@@ -47,3 +47,20 @@ template<typename T>
 int ListaEncadeada<T>::getTamanho() const {
     return tamanho;
 }
+
+template <typename T>
+T ListaEncadeada<T>::getPrimeiro() const {
+    if (primeiro == nullptr)
+        throw std::runtime_error("Lista vazia");
+    return primeiro->item;
+}
+
+template <typename T>
+void ListaEncadeada<T>::removeInicio() {
+    if (primeiro == nullptr)
+        return;
+    No<T>* temp = primeiro;
+    primeiro = primeiro->prox;
+    delete temp;
+    --tamanho;
+}
