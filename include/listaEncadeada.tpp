@@ -1,3 +1,6 @@
+#ifndef LISTAENCADEADA_TPP
+#define LISTAENCADEADA_TPP
+
 #include <iostream>
 #include "listaEncadeada.hpp"
 
@@ -31,7 +34,6 @@ void ListaEncadeada<T>::insereFinal(const T& item) {
     } else {
         primeiro = nova;
     }
-    ultimo = nova;
     ++tamanho;
 }
 
@@ -64,3 +66,5 @@ void ListaEncadeada<T>::removeInicio() {
     delete temp;
     --tamanho;
 }
+
+#endif

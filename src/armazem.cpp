@@ -18,7 +18,7 @@ void Armazem::inserePacote(Pacote p) {
 }
 
 
-PilhaEncadeada& Armazem::getSecaoDestino(int destino) {
+PilhaEncadeada<Pacote>& Armazem::getSecaoDestino(int destino) {
     for (No<DestinoSecao>* atual = listaDestinoSecao.primeiro; atual != nullptr; atual = atual->prox) {
         if (atual->item.destino == destino) {
             return atual->item.secao;
@@ -38,10 +38,16 @@ bool Armazem::removerPacote(int destino, int pacoteId) {
     for (No<DestinoSecao>* atual = listaDestinoSecao.primeiro; atual != nullptr; atual = atual->prox) {
         if (atual->item.destino == destino) {
             // Encontrou a seção de destino. Agora remove o pacote da pilha (seção)
-            return atual->item.secao.removePacotePorId(pacoteId);  // Remove o pacote pela ID na pilha
+            return atual->item.secao.removePorId(pacoteId);  // Remove o pacote pela ID na pilha
         }
     }
 
     // Se não encontrou a seção, retorna false
     return false;
+}
+
+std::ostream& operator<<(std::ostream& os, const Armazem& armazem) {
+    // Aqui você decide o que imprimir de Armazem. Exemplo:
+    os << "Armazem ID: " << armazem.id;  // Imprimindo um atributo "id"
+    return os;
 }

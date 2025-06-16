@@ -1,24 +1,28 @@
 // Dentro de escalonador.cpp
 #include <iomanip>  // para setw e setfill
-#include <iostream>
 #include "escalonador.hpp"
 
-void Escalonador::processarEventos() {
-    while (!heapEventos.Vazio()) {
-        Evento eventoAtual = heapEventos.Remover();
-        relogioGlobal = eventoAtual.tempoEvento;
 
-        switch (eventoAtual.tipoEvento) {
-            case 1:
-                processarTransporte(eventoAtual);
-                break;
-            case 2:
-                processarChegada(eventoAtual);
-                break;
-            default:
-                std::cerr << "Tipo de evento desconhecido." << std::endl;
-        }
-    }
+Escalonador::Escalonador(int tempo) : relogioGlobal(tempo), condicaoDeTermino(false) {}
+
+Escalonador::~Escalonador() {}
+
+void Escalonador::escalonarTransporte(int tempoEvento, int origem, int destino) {
+    Evento novoEvento;
+    novoEvento.tempoEvento = tempoEvento;
+    novoEvento.tipoEvento = 1; // Tipo 1 para transporte
+    novoEvento.descricao = "Transporte de pacote de " + std::to_string(origem) + " para " + std::to_string(destino);
+
+    heapEventos.Inserir(novoEvento);  // Insere o evento de transporte na heap
+}
+
+void Escalonador::escalonarChegada(int tempoEvento, int origem, int destino) {
+    Evento novoEvento;
+    novoEvento.tempoEvento = tempoEvento;
+    novoEvento.tipoEvento = 2; // Tipo 2 para chegada de pacote
+    novoEvento.descricao = "Chegada do pacote no armazém " + std::to_string(destino);
+
+    heapEventos.Inserir(novoEvento);  // Insere o evento de chegada na heap
 }
 
 void Escalonador::processarTransporte(Evento& evento) {

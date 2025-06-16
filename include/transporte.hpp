@@ -15,13 +15,12 @@ class Transporte{
         // Método para adicionar pacotes na seção de origem
         void inserirPacoteOrigem(Pacote* p);
         void avancarPacote(Pacote* p);
-        void calculaRota(Pacote* p);
+        void processarChegada(Evento& evento);
+
         
     private:
-        struct Alteracao {
-            int tempo;          // instante da alteração
-            int novoEstado;     // novo estado do pacote
-        };
+
+        void calculaRota(Pacote* p);
         
         int capacidadeTransporte;
         int latenciaTransporte;
@@ -29,7 +28,7 @@ class Transporte{
 
         Grafo mapaArmazens;
 
-        ListaEncadeada<Alteracao> listaTransportes; //evento de transporte
+        friend class Escalonador;
 };
 
 #endif

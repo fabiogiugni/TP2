@@ -1,9 +1,9 @@
 #ifndef LISTAADJACENCIA_HPP
 #define LISTAADJACENCIA_HPP
 
-#include "armazem.hpp"
 #include "listaEncadeada.hpp"
 #include "pacote.hpp"
+#include "armazem.hpp"
 
 class ListaAdjacencia{
 public:
@@ -22,10 +22,11 @@ private:
     int numVertices;
     ListaEncadeada<Armazem*>* listaAdj;  // Lista de ponteiros para armazéns
     
-    friend class Fila;
+    friend class Fila<Pacote>;
     friend class Grafo;
     friend class Armazem;
     friend class Transporte;
+    friend class Escalonador;
 };
 
 #endif

@@ -1,7 +1,10 @@
 #include "transporte.hpp"
+#include <iomanip>
 
 Transporte::Transporte(int capacidadeTransporte, int latenciaTransporte, int intervaloTransporte, Grafo mapa): capacidadeTransporte(capacidadeTransporte), 
 latenciaTransporte(latenciaTransporte), intervaloTransporte(intervaloTransporte), mapaArmazens(mapa){}
+
+Transporte::~Transporte() {}
 
 void Transporte::calculaRota(Pacote* p) {
     int origem = p->getOrigem();
@@ -18,7 +21,6 @@ void Transporte::calculaRota(Pacote* p) {
               << " de " << origem << " para " << destino << ":\n";
     rotaCalculada.imprime();
 }
-
 
 void Transporte::avancarPacote(Pacote* p) {
     int origem = p->getOrigem();

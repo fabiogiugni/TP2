@@ -24,6 +24,7 @@ public:
 private:
     ListaAdjacencia vertices;  // Lista de adjacência
     friend class Transporte;
+    friend class Escalonador;
 };
 
 #endif

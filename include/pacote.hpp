@@ -4,6 +4,8 @@
 #include "listaEncadeada.hpp"
 #include "armazem.hpp"
 
+class Armazem;
+
 class Pacote {
     public:
         Pacote();

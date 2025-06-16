@@ -1,3 +1,6 @@
+#ifndef FILA_TPP
+#define FILA_TPP
+
 #include "fila.hpp"
 
 template<typename T>
@@ -38,3 +41,5 @@ template<typename T>
 bool Fila<T>::vazia() const {
     return primeiro == nullptr;
 }
+
+#endif

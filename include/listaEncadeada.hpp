@@ -2,12 +2,7 @@
 #define LISTAENCADEADA_HPP
 
 #include <iostream>
-
-template <typename T>
-struct No{
-    T item;
-    No<T>* prox;
-};
+#include "no.hpp"
 
 template <typename T>
 class ListaEncadeada{
@@ -33,5 +28,7 @@ class ListaEncadeada{
     friend class Armazem;
     friend class Transporte;
 };
+
+#include "listaEncadeada.tpp"
 
 #endif

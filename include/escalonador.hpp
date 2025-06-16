@@ -10,12 +10,12 @@
 
 class Escalonador {
 public:
-    Escalonador();
+    Escalonador(int tempo);
     ~Escalonador();
 
     void escalonarTransporte(int tempoEvento, int origem, int destino);
     void escalonarChegada(int tempoEvento, int origem, int destino);
-    void processarEventos();
+    void executarTransportes();
 
 private:
     Heap heapEventos;  // Min-heap que armazena eventos

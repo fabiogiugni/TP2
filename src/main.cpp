@@ -8,8 +8,6 @@ int main(int argc,char *argv[]){
 
     int tempo = 0;
 
-    Escalonador escal;
-
     // Cria um objeto ifstream para abrir o arquivo
     std::ifstream arquivo("exemplo.txt");
 
@@ -66,10 +64,8 @@ int main(int argc,char *argv[]){
         Pacote* p = new Pacote(tempo, id, orgn, dest);  // Criando o pacote
 
         // Calculando a rota do pacote (usando o método `calculaRota` da classe Transporte)
-        transp.calculaRota(p);
-
-        // Inserindo o pacote no armazém de origem
         transp.inserirPacoteOrigem(p);
+
     }
     return 0;
 }

@@ -2,12 +2,7 @@
 #define FILA_HPP
 
 #include <iostream>
-
-template<typename T>
-struct No{
-    T item;
-    No<T>* prox;
-};
+#include "no.hpp"
 
 template<typename T>
 class Fila{

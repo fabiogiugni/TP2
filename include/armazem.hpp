@@ -2,11 +2,11 @@
 #define ARMAZEM_HPP
 
 #include "pacote.hpp"
-#include "graph.hpp"
-#include "fila.hpp"
 #include "pilhaEncadeada.hpp"
+#include "fila.hpp"
 #include "listaEncadeada.hpp"
-#include "evento.hpp"
+
+class Pacote;
 
 class Armazem {
 public:
@@ -14,22 +14,21 @@ public:
     Armazem(int id);
     ~Armazem();
     
-    // Método para acessar a fila de pacotes de um destino específico
-    PilhaEncadeada& getSecaoDestino(int destino);
+    PilhaEncadeada<Pacote>& getSecaoDestino(int destino);
     void inserePacote(Pacote p);
     int getId();
     bool removerPacote(int destino, int pacoteId);
 
+    friend std::ostream& operator<<(std::ostream& os, const Armazem& armazem);
+
 private:
     int id;
-    // Lista encadeada para associar destinos a filas de pacotes
     struct DestinoSecao {
-        int destino;    //Destino (número do vértice)
-        PilhaEncadeada secao;
+        int destino;
+        PilhaEncadeada<Pacote> secao;  // Agora PilhaEncadeada é reconhecida
     };
-
-    // Lista encadeada que vai armazenar as seções para cada destino
     ListaEncadeada<DestinoSecao> listaDestinoSecao;
+
 };
 
 #endif

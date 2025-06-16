@@ -3,6 +3,8 @@
 
 #include "pacote.hpp"
 
+class Pacote;
+
 struct Evento{
     int tempoEvento;
     int tipoEvento;
