@@ -40,3 +40,15 @@ void Transporte::avancarPacote(Pacote* p) {
     Armazem* armazemDestino = mapaArmazens.vertices.listaAdj[proximoArmazem].primeiro->item;
     armazemDestino->inserePacote(*p);  // Insere o pacote na pilha do armazém de destino
 }
+
+void Transporte::inserirPacoteOrigem(Pacote* p) {
+    // Calcula a rota do pacote (isso também preencherá o campo `p->rota`)
+    calculaRota(p);
+
+    // Acessa o armazém de origem (primeiro da rota)
+    int origem = p->getOrigem();
+    Armazem* armazemOrigem = mapaArmazens.vertices.listaAdj[origem].primeiro->item;
+
+    // Insere o pacote na pilha do armazém de origem
+    armazemOrigem->inserePacote(*p);
+}

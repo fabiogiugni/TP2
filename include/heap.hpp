@@ -2,31 +2,29 @@
 #define HEAP_HPP
 
 #include <iostream>
-#include "evento.hpp"
+#include "evento.hpp"  // Incluindo o arquivo de evento
 
+class Heap {
+public:
+    Heap(); 
+    Heap(int maxsize);
+    ~Heap();
 
-class Heap{
+    void Inserir(const Evento& e);  // Inserir um evento
+    Evento Remover();               // Remover o evento com o menor tempo (mínimo)
+    
+    bool Vazio() const;
 
-    public:
-        Heap(int maxsize);
-        ~Heap();
+private:
+    int GetAncestral(int posicao);
+    int GetSucessorEsq(int posicao);
+    int GetSucessorDir(int posicao);
 
-        void Inserir(int x);
-        int Remover();
+    int tamanho;
+    Evento* data;  // Agora armazenamos Evento em vez de int
 
-        bool Vazio();
-
-    private:
-        int GetAncestral(int posicao);
-        int GetSucessorEsq(int posicao);
-        int GetSucessorDir(int posicao);
-
-        int tamanho;
-        int* data;
-
-        void HeapifyPorBaixo(int posicao);
-        void HeapifyPorCima(int posicao);
+    void HeapifyPorBaixo(int posicao);
+    void HeapifyPorCima(int posicao);
 };
-
 
 #endif

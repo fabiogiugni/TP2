@@ -62,8 +62,14 @@ int main(int argc,char *argv[]){
         std::cin >> dst;  // Lê e ignora a palavra "dst"
         int dest = 0;
         std::cin>>dest;
-        Pacote p(tempo,id,orgn,dest);
+
+        Pacote* p = new Pacote(tempo, id, orgn, dest);  // Criando o pacote
+
+        // Calculando a rota do pacote (usando o método `calculaRota` da classe Transporte)
+        transp.calculaRota(p);
+
+        // Inserindo o pacote no armazém de origem
+        transp.inserirPacoteOrigem(p);
     }
-
-
+    return 0;
 }

@@ -13,7 +13,7 @@ class Transporte{
         void insereVertice();
 
         // Método para adicionar pacotes na seção de origem
-        void adicionarPacoteOrigem(Pacote* pacote);
+        void inserirPacoteOrigem(Pacote* p);
         void avancarPacote(Pacote* p);
         void calculaRota(Pacote* p);
         

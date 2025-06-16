@@ -1,20 +1,28 @@
 #ifndef ESCALONADOR_HPP
 #define ESCALONADOR_HPP
 
-#include "heap.hpp"
-#include "graph.hpp"
+#include "pacote.hpp"
+#include "armazem.hpp"
+#include "transporte.hpp"
 #include "evento.hpp"
+#include "heap.hpp"
+#include <string>
 
-//fila de prioridade
+class Escalonador {
+public:
+    Escalonador();
+    ~Escalonador();
 
-class Escalonador{
-    public:
-        Escalonador();
-        ~Escalonador();
-        void InsereVertice();
-        void PostagemPacote(const Pacote&p);
-    private:
-        int tempoAtual;
+    void escalonarTransporte(int tempoEvento, int origem, int destino);
+    void escalonarChegada(int tempoEvento, int origem, int destino);
+    void processarEventos();
+
+private:
+    Heap heapEventos;  // Min-heap que armazena eventos
+    int relogioGlobal; // Relógio do sistema
+    void processarTransporte(Evento& evento);
+    void processarChegada(Evento& evento);
+    bool condicaoDeTermino; // Condição de término do sistema
 };
 
 #endif
