@@ -18,7 +18,7 @@ public:
     int GrauMinimo();
     int GrauMaximo();
 
-    void ImprimeVizinhos(int v);
+    void ImprimeVizinhos();
     ListaEncadeada<Armazem> BFS(int origem, int destino);
 
 private:

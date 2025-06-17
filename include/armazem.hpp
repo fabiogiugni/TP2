@@ -20,9 +20,8 @@ public:
     bool removerPacote(int destino, int pacoteId);
 
     friend std::ostream& operator<<(std::ostream& os, const Armazem& armazem);
-
-private:
     int id;
+private:
     struct DestinoSecao {
         int destino;
         PilhaEncadeada<Pacote> secao;  // Agora PilhaEncadeada é reconhecida

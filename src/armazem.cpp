@@ -48,6 +48,6 @@ bool Armazem::removerPacote(int destino, int pacoteId) {
 
 std::ostream& operator<<(std::ostream& os, const Armazem& armazem) {
     // Aqui você decide o que imprimir de Armazem. Exemplo:
-    os << "Armazem ID: " << armazem.id;  // Imprimindo um atributo "id"
+    os << armazem.id;  // Imprimindo um atributo "id"
     return os;
 }

@@ -16,7 +16,7 @@ class ListaEncadeada{
         int getTamanho() const;
         T getPrimeiro() const;
         void removeInicio();
-
+        void limpa();
     
     private:
         No<T> *primeiro;

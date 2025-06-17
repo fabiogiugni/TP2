@@ -27,10 +27,10 @@ void Transporte::avancarPacote(Pacote* p) {
     int destino = p->getProximoArmazem().getId();  // O próximo armazém é o primeiro da rota
 
     // Acessa o armazém de origem
-    Armazem* armazemOrigem = mapaArmazens.vertices.listaAdj[origem].primeiro->item;
+    Armazem& armazemOrigem = mapaArmazens.vertices.listaAdj[origem].primeiro->item;
 
     // Remove o pacote da seção de destino atual
-    armazemOrigem->removerPacote(destino, p->getId());  // Remove o pacote da pilha do armazém de origem
+    armazemOrigem.removerPacote(destino, p->getId());  // Remove o pacote da pilha do armazém de origem
 
     // Avança a rota do pacote (remove o armazém atual da lista de rota)
     p->avancarRota();
@@ -39,8 +39,8 @@ void Transporte::avancarPacote(Pacote* p) {
     int proximoArmazem = p->getProximoArmazem().getId();  // O próximo armazém na rota
 
     // Insere o pacote no armazém de destino
-    Armazem* armazemDestino = mapaArmazens.vertices.listaAdj[proximoArmazem].primeiro->item;
-    armazemDestino->inserePacote(*p);  // Insere o pacote na pilha do armazém de destino
+    Armazem& armazemDestino = mapaArmazens.vertices.listaAdj[proximoArmazem].primeiro->item;
+    armazemDestino.inserePacote(*p);  // Insere o pacote na pilha do armazém de destino
 }
 
 void Transporte::inserirPacoteOrigem(Pacote* p) {
@@ -49,8 +49,8 @@ void Transporte::inserirPacoteOrigem(Pacote* p) {
 
     // Acessa o armazém de origem (primeiro da rota)
     int origem = p->getOrigem();
-    Armazem* armazemOrigem = mapaArmazens.vertices.listaAdj[origem].primeiro->item;
+    Armazem& armazemOrigem = mapaArmazens.vertices.listaAdj[origem].primeiro->item;
 
     // Insere o pacote na pilha do armazém de origem
-    armazemOrigem->inserePacote(*p);
+    armazemOrigem.inserePacote(*p);
 }

@@ -28,6 +28,7 @@ void ListaEncadeada<T>::insereInicio(const T& item) {
 
 template<typename T>
 void ListaEncadeada<T>::insereFinal(const T& item) {
+    std::cout<<"primeiro: "<<primeiro->item.id<<std::endl;
     No<T>* nova = new No<T>{item, nullptr};
     if (ultimo != nullptr) {
         ultimo->prox = nova;
@@ -40,10 +41,11 @@ void ListaEncadeada<T>::insereFinal(const T& item) {
 template<typename T>
 void ListaEncadeada<T>::imprime() const {
     for (No<T>* atual = primeiro; atual != nullptr; atual = atual->prox) {
-        std::cout << atual->item << " ";
+        std::cout << atual->item.getId() << " ";  // Acessa diretamente o ID de Armazem
     }
     std::cout << std::endl;
 }
+
 
 template<typename T>
 int ListaEncadeada<T>::getTamanho() const {
@@ -65,6 +67,19 @@ void ListaEncadeada<T>::removeInicio() {
     primeiro = primeiro->prox;
     delete temp;
     --tamanho;
+}
+
+template <typename T>
+void ListaEncadeada<T>::limpa() {
+    No<T>* atual = primeiro;
+    while (atual != nullptr) {
+        No<T>* temp = atual;
+        atual = atual->prox;
+        delete temp;  // Remove o nó, mas não os objetos armazenados
+    }
+    primeiro = nullptr;  // A lista está vazia agora
+    ultimo = nullptr;    // O último também é nullptr
+    tamanho = 0;
 }
 
 #endif

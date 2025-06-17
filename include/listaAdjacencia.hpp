@@ -20,7 +20,7 @@ public:
     // Aqui vamos armazenar um array de ponteiros para armazéns
 private:
     int numVertices;
-    ListaEncadeada<Armazem*>* listaAdj;  // Lista de ponteiros para armazéns
+    ListaEncadeada<Armazem>* listaAdj;  // Lista de ponteiros para armazéns
     
     friend class Fila<Pacote>;
     friend class Grafo;

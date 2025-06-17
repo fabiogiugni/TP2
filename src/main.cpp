@@ -26,6 +26,7 @@ int main(int argc,char *argv[]){
     int custoRemocao = 0;
     arquivo>>custoRemocao;
 
+
     Grafo mapaArm;
 
     int numeroArmazens = 0;
@@ -33,6 +34,9 @@ int main(int argc,char *argv[]){
 
     for(int i = 0; i < numeroArmazens; i++){
         mapaArm.InsereVertice();
+    }
+    
+    for(int i = 0; i < numeroArmazens; i++){
         for(int j = 0; j < numeroArmazens; j++){
             int temAresta = 0;
             arquivo>>temAresta;
@@ -41,11 +45,19 @@ int main(int argc,char *argv[]){
             }
         }
     }
+
+    
+    mapaArm.ImprimeVizinhos();
+
+
+
+
     Transporte transp(capacidadeTransporte, latenciaTransporte, intervaloTransportes, mapaArm);
 
     int numeroPacotes = 0;
     arquivo>>numeroPacotes;
-
+    return 0;
+    
     for(int i = 0; i < numeroPacotes; i++){
         int tempo = 0;
         std::cin>>tempo;
@@ -67,5 +79,6 @@ int main(int argc,char *argv[]){
         transp.inserirPacoteOrigem(p);
 
     }
+    std::cout<<"fim"<<std::endl;
     return 0;
 }

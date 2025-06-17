@@ -34,9 +34,9 @@ int Grafo::GrauMaximo() {
     return vertices.grauMaximo();
 }
 
-void Grafo::ImprimeVizinhos(int v) {
+void Grafo::ImprimeVizinhos() {
     // Agora os vizinhos são armazéns, então precisamos imprimir as informações dos armazéns
-    vertices.listaAdj[v].imprime();
+    vertices.imprimeVizinhos();
 }
 
 
@@ -63,11 +63,11 @@ ListaEncadeada<Armazem> Grafo::BFS(int origem, int destino) {
     // Busca em largura
     while (!fila.vazia()) {
         int v = fila.Desenfileira();
-        No<Armazem*>* atual = vertices.listaAdj[v].primeiro;
+        No<Armazem>* atual = vertices.listaAdj[v].primeiro;
 
         while (atual != nullptr) {
-            Armazem* w = atual->item;
-            int idW = w->getId();
+            Armazem& w = atual->item;
+            int idW = w.getId();
             if (!visitado[idW]) {
                 visitado[idW] = true;
                 distancia[idW] = distancia[v] + 1;
@@ -91,8 +91,8 @@ ListaEncadeada<Armazem> Grafo::BFS(int origem, int destino) {
 
     // Reconstrói rota do destino até a origem usando predecessor[]
     for (int v = destino; v != -1; v = predecessor[v]) {
-        Armazem* a = vertices.listaAdj[v].primeiro->item;  // Pegamos o primeiro da lista, que é o próprio vértice
-        Armazem copia(*a);  // Fazemos cópia (pois a lista espera Armazem, não ponteiro)
+        Armazem& a = vertices.listaAdj[v].primeiro->item;  // Pegamos o primeiro da lista, que é o próprio vértice
+        Armazem copia(a);  // Fazemos cópia (pois a lista espera Armazem, não ponteiro)
         rota.insereInicio(copia);
     }
 
