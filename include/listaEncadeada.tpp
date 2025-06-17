@@ -28,7 +28,6 @@ void ListaEncadeada<T>::insereInicio(const T& item) {
 
 template<typename T>
 void ListaEncadeada<T>::insereFinal(const T& item) {
-    std::cout<<"primeiro: "<<primeiro->item.id<<std::endl;
     No<T>* nova = new No<T>{item, nullptr};
     if (ultimo != nullptr) {
         ultimo->prox = nova;
@@ -36,6 +35,7 @@ void ListaEncadeada<T>::insereFinal(const T& item) {
         primeiro = nova;
     }
     ++tamanho;
+    std::cout<<tamanho<<std::endl;
 }
 
 template<typename T>

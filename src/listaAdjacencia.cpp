@@ -25,9 +25,10 @@ ListaAdjacencia::~ListaAdjacencia() {
 
 // Insere aresta entre os vértices v e w
 void ListaAdjacencia::insereAresta(int v, int w) {
-    std::cout<<"isereAresta"<<std::endl;
-    Armazem armazemDestino(w);  // Cria um ponteiro para o armazém com id `w`
-    listaAdj[v].insereFinal(armazemDestino);  // Insere o ponteiro do armazém na lista de adjacência de v
+    std::cout<<"insereAresta"<<std::endl;
+    Armazem* armazemDestino = &vertices[w];  // Fazendo referência ao armazém existente
+    listaAdj[v].insereFinal(*armazemDestino);  // Referenciando esse armazém na lista de adjacências
+
 }
 
 // Retorna o grau mínimo dos vértices
@@ -54,12 +55,16 @@ int ListaAdjacencia::grauMaximo() {
     return max;
 }
 
-// Imprime os vizinhos (armazéns) de cada vértice
+// Imprime os vizinhos de cada vértice
 void ListaAdjacencia::imprimeVizinhos() {
     for (int i = 0; i < numVertices; i++) {
         std::cout << "Vértice " << i << ": ";
-        
-        listaAdj[i].imprime();
+        No<Armazem>* atual = listaAdj[i].primeiro;
+        while (atual != nullptr) {
+            std::cout << atual->item.getId() << " ";  // Imprime o ID do armazém
+            atual = atual->prox;
+        }
+        std::cout << std::endl;
     }
 }
 
