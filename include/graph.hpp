@@ -6,11 +6,11 @@
 
 class Grafo {
 public:
-    Grafo();
+    Grafo(int numeroArmazens);
     ~Grafo();
 
-    void InsereVertice();
-    void InsereAresta(int v, int w);  
+    void InsereVertice(Armazem* armazem);  // Agora insere ponteiro para Armazem
+    void InsereAresta(int v, Armazem* armazemDestino);  
 
     int QuantidadeVertices();
     int QuantidadeArestas();
@@ -19,12 +19,16 @@ public:
     int GrauMaximo();
 
     void ImprimeVizinhos();
-    ListaEncadeada<Armazem> BFS(int origem, int destino);
+    ListaEncadeada<Armazem*> BFS(int origem, int destino);
 
 private:
     ListaAdjacencia vertices;  // Lista de adjacência
+    Armazem** armazens;  // Agora é um vetor de ponteiros para Armazem
+    int numeroArmazens;
+
     friend class Transporte;
     friend class Escalonador;
 };
+
 
 #endif

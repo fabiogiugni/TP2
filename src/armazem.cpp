@@ -12,8 +12,12 @@ int Armazem::getId(){
     return id;
 }
 
+void Armazem::setId(int id){
+    this->id = id;
+}
+
 void Armazem::inserePacote(Pacote p) {
-    int prox = p.getProximoArmazem().id;
+    int prox = p.getProximoArmazem()->id;
     getSecaoDestino(prox).Empilha(p);
 }
 

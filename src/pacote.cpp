@@ -10,7 +10,7 @@ Pacote::~Pacote() {
     // Não precisa de ação manual aqui, pois a ListaEncadeada cuida da destruição
 }
 
-void Pacote::setRota(ListaEncadeada<Armazem> novaRota){
+void Pacote::setRota(ListaEncadeada<Armazem*> novaRota){
     rota = novaRota;
 }
 
@@ -32,7 +32,7 @@ void Pacote::avancarRota() {
     }
 }
 
-Armazem Pacote::getProximoArmazem() const {
+Armazem* Pacote::getProximoArmazem() const {
     if (rota.getTamanho() > 0) {
         return rota.getPrimeiro();  // Supondo que você tenha esse método na lista
     }

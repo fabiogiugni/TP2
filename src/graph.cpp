@@ -1,21 +1,29 @@
 #include <iostream>
 #include "graph.hpp"
+#include "armazem.hpp"
+#include "listaAdjacencia.hpp"
 
-Grafo::Grafo() : vertices(0) {}
-
-Grafo::~Grafo() {}
-
-void Grafo::InsereVertice() {
-    vertices.insereVertice();  // Insere um novo armazém na lista de adjacência
-    // Agora você precisa associar os armazéns aos vértices
+Grafo::Grafo(int numeroArmazens) : vertices(numeroArmazens), numeroArmazens(numeroArmazens) {
+    armazens = new Armazem*[numeroArmazens];  // Aloca um vetor de ponteiros para Armazem
 }
 
-void Grafo::InsereAresta(int v, int w) {
-    vertices.insereAresta(v, w);  // Insere um ponteiro para armazém na lista de adjacência
+Grafo::~Grafo() {
+    // Libera a memória alocada para os armazéns
+    delete[] armazens;
+}
+
+void Grafo::InsereVertice(Armazem* armazem) {
+    armazens[numeroArmazens - 1] = armazem;  // Coloca o ponteiro no índice apropriado
+    numeroArmazens++;
+}
+
+void Grafo::InsereAresta(int v, Armazem* armazemDestino) {
+    // Insere a aresta entre o vértice v e o armazém destino, passando o ponteiro para o armazém
+    vertices.insereAresta(v, armazemDestino);  // Insere o ponteiro do armazém na lista de adjacência
 }
 
 int Grafo::QuantidadeVertices() {
-    return vertices.numVertices;
+    return vertices.numVertices;  // Retorna a quantidade de vértices (armazéns)
 }
 
 int Grafo::QuantidadeArestas() {
@@ -23,27 +31,25 @@ int Grafo::QuantidadeArestas() {
     for (int i = 0; i < vertices.numVertices; ++i) {
         arestas += vertices.listaAdj[i].tamanho;
     }
-    return arestas / 2;
+    return arestas / 2;  // Divide por 2 para não contar arestas duplicadas
 }
 
 int Grafo::GrauMinimo() {
-    return vertices.grauMinimo();
+    return vertices.grauMinimo();  // Chama a função da lista de adjacência para grau mínimo
 }
 
 int Grafo::GrauMaximo() {
-    return vertices.grauMaximo();
+    return vertices.grauMaximo();  // Chama a função da lista de adjacência para grau máximo
 }
 
 void Grafo::ImprimeVizinhos() {
-    // Agora os vizinhos são armazéns, então precisamos imprimir as informações dos armazéns
-    vertices.imprimeVizinhos();
+    // Imprime os vizinhos de cada vértice (armazém)
+    vertices.imprimeVizinhos();  // Chama a função de impressão de vizinhos da lista de adjacência
 }
 
-
-ListaEncadeada<Armazem> Grafo::BFS(int origem, int destino) {
+ListaEncadeada<Armazem*> Grafo::BFS(int origem, int destino) {
     int n = vertices.numVertices;
 
-    // Inicializa vetores auxiliares
     bool* visitado = new bool[n];
     int* distancia = new int[n];
     int* predecessor = new int[n];
@@ -54,20 +60,18 @@ ListaEncadeada<Armazem> Grafo::BFS(int origem, int destino) {
         predecessor[i] = -1;
     }
 
-    // Fila de BFS
     Fila<int> fila;
     visitado[origem] = true;
     distancia[origem] = 0;
     fila.Enfileira(origem);
 
-    // Busca em largura
     while (!fila.vazia()) {
         int v = fila.Desenfileira();
-        No<Armazem>* atual = vertices.listaAdj[v].primeiro;
+        No<Armazem*>* atual = vertices.listaAdj[v].primeiro;
 
         while (atual != nullptr) {
-            Armazem& w = atual->item;
-            int idW = w.getId();
+            Armazem* w = atual->item;
+            int idW = w->getId();
             if (!visitado[idW]) {
                 visitado[idW] = true;
                 distancia[idW] = distancia[v] + 1;
@@ -78,22 +82,19 @@ ListaEncadeada<Armazem> Grafo::BFS(int origem, int destino) {
         }
     }
 
-    ListaEncadeada<Armazem> rota;
+    ListaEncadeada<Armazem*> rota;
 
-    // Se destino não foi alcançado
     if (distancia[destino] == -1) {
         std::cout << "Destino " << destino << " não alcançável a partir de " << origem << "\n";
         delete[] visitado;
         delete[] distancia;
         delete[] predecessor;
-        return rota;  // Vazio
+        return rota;
     }
 
-    // Reconstrói rota do destino até a origem usando predecessor[]
     for (int v = destino; v != -1; v = predecessor[v]) {
-        Armazem& a = vertices.listaAdj[v].primeiro->item;  // Pegamos o primeiro da lista, que é o próprio vértice
-        Armazem copia(a);  // Fazemos cópia (pois a lista espera Armazem, não ponteiro)
-        rota.insereInicio(copia);
+        Armazem* a = vertices.listaAdj[v].primeiro->item;
+        rota.insereInicio(a);
     }
 
     delete[] visitado;
@@ -102,3 +103,4 @@ ListaEncadeada<Armazem> Grafo::BFS(int origem, int destino) {
 
     return rota;
 }
+

@@ -26,14 +26,16 @@ int main(int argc,char *argv[]){
     int custoRemocao = 0;
     arquivo>>custoRemocao;
 
-
-    Grafo mapaArm;
-
     int numeroArmazens = 0;
     arquivo>>numeroArmazens;
 
+    Grafo mapaArm(numeroArmazens);
+
+    Armazem* vetArm = new Armazem[numeroArmazens]; 
+
     for(int i = 0; i < numeroArmazens; i++){
-        mapaArm.InsereVertice();
+        vetArm[i].setId(i);
+        mapaArm.InsereVertice(&vetArm[i]);
     }
     
     for(int i = 0; i < numeroArmazens; i++){
@@ -41,7 +43,7 @@ int main(int argc,char *argv[]){
             int temAresta = 0;
             arquivo>>temAresta;
             if(temAresta == 1){
-                mapaArm.InsereAresta(i,j);
+                mapaArm.InsereAresta(i,&vetArm[i]);
             }
         }
     }
@@ -49,14 +51,11 @@ int main(int argc,char *argv[]){
     
     mapaArm.ImprimeVizinhos();
 
-
-
-
-    Transporte transp(capacidadeTransporte, latenciaTransporte, intervaloTransportes, mapaArm);
-
     int numeroPacotes = 0;
     arquivo>>numeroPacotes;
     return 0;
+
+    Transporte transp(capacidadeTransporte, latenciaTransporte, intervaloTransportes, mapaArm);
     
     for(int i = 0; i < numeroPacotes; i++){
         int tempo = 0;

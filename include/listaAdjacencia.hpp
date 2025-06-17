@@ -5,23 +5,23 @@
 #include "pacote.hpp"
 #include "armazem.hpp"
 
-class ListaAdjacencia{
+class ListaAdjacencia {
 public:
     ListaAdjacencia();
     ListaAdjacencia(int vertices);
     ~ListaAdjacencia();
-    void insereAresta(int v, int w);
+
+    void insereAresta(int v, Armazem* armazemDestino);
     int grauMinimo();
     int grauMaximo();
     void imprimeVizinhos();
-    void insereVertice();  // Modificado para aceitar ponteiro
+    void insereVertice();  // Adiciona um novo vértice
     void inserePacote(Pacote* p);
-    
-    // Aqui vamos armazenar um array de ponteiros para armazéns
+
 private:
     int numVertices;
-    ListaEncadeada<Armazem>* listaAdj;  // Lista de ponteiros para armazéns
-    
+    ListaEncadeada<Armazem*>* listaAdj;  // Agora armazena ponteiros para Armazem
+
     friend class Fila<Pacote>;
     friend class Grafo;
     friend class Armazem;

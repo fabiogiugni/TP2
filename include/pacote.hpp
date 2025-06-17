@@ -14,9 +14,9 @@ class Pacote {
         int getOrigem();
         int getId();
         int getDestino();
-        void setRota(ListaEncadeada<Armazem> novaRota);
+        void setRota(ListaEncadeada<Armazem*> novaRota);
         void avancarRota();  // Avança para o próximo armazém
-        Armazem getProximoArmazem() const;  // Acessa o próximo armazém (sem remover)
+        Armazem* getProximoArmazem() const;  // Acessa o próximo armazém (sem remover)
         bool chegouAoDestino() const;       // Verifica se a rota acabou
 
     private:
@@ -32,7 +32,7 @@ class Pacote {
         5- alocado para transporte 
         6- entregue
         */
-        ListaEncadeada<Armazem> rota;
+        ListaEncadeada<Armazem*> rota;
     friend class Armazem;
     friend class Grafo;
     friend class Transporte;

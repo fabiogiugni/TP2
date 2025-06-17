@@ -11,7 +11,7 @@ void Transporte::calculaRota(Pacote* p) {
     int destino = p->getDestino();
 
     // Usa o método BFS do grafo para obter a rota entre origem e destino
-    ListaEncadeada<Armazem> rotaCalculada = mapaArmazens.BFS(origem, destino);
+    ListaEncadeada<Armazem*> rotaCalculada = mapaArmazens.BFS(origem, destino);
 
     // Atualiza o atributo rota do pacote
     p->setRota(rotaCalculada);
@@ -24,23 +24,23 @@ void Transporte::calculaRota(Pacote* p) {
 
 void Transporte::avancarPacote(Pacote* p) {
     int origem = p->getOrigem();
-    int destino = p->getProximoArmazem().getId();  // O próximo armazém é o primeiro da rota
+    int destino = p->getProximoArmazem()->getId();  // O próximo armazém é o primeiro da rota
 
     // Acessa o armazém de origem
-    Armazem& armazemOrigem = mapaArmazens.vertices.listaAdj[origem].primeiro->item;
+    Armazem* armazemOrigem = mapaArmazens.vertices.listaAdj[origem].primeiro->item;
 
     // Remove o pacote da seção de destino atual
-    armazemOrigem.removerPacote(destino, p->getId());  // Remove o pacote da pilha do armazém de origem
+    armazemOrigem->removerPacote(destino, p->getId());  // Remove o pacote da pilha do armazém de origem
 
     // Avança a rota do pacote (remove o armazém atual da lista de rota)
     p->avancarRota();
 
     // Acessa o próximo armazém (o destino da próxima seção)
-    int proximoArmazem = p->getProximoArmazem().getId();  // O próximo armazém na rota
+    int proximoArmazem = p->getProximoArmazem()->getId();  // O próximo armazém na rota
 
     // Insere o pacote no armazém de destino
-    Armazem& armazemDestino = mapaArmazens.vertices.listaAdj[proximoArmazem].primeiro->item;
-    armazemDestino.inserePacote(*p);  // Insere o pacote na pilha do armazém de destino
+    Armazem* armazemDestino = mapaArmazens.vertices.listaAdj[proximoArmazem].primeiro->item;
+    armazemDestino->inserePacote(*p);  // Insere o pacote na pilha do armazém de destino
 }
 
 void Transporte::inserirPacoteOrigem(Pacote* p) {
@@ -49,8 +49,8 @@ void Transporte::inserirPacoteOrigem(Pacote* p) {
 
     // Acessa o armazém de origem (primeiro da rota)
     int origem = p->getOrigem();
-    Armazem& armazemOrigem = mapaArmazens.vertices.listaAdj[origem].primeiro->item;
+    Armazem* armazemOrigem = mapaArmazens.vertices.listaAdj[origem].primeiro->item;
 
     // Insere o pacote na pilha do armazém de origem
-    armazemOrigem.inserePacote(*p);
+    armazemOrigem->inserePacote(*p);
 }

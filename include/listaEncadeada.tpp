@@ -41,7 +41,7 @@ void ListaEncadeada<T>::insereFinal(const T& item) {
 template<typename T>
 void ListaEncadeada<T>::imprime() const {
     for (No<T>* atual = primeiro; atual != nullptr; atual = atual->prox) {
-        std::cout << atual->item.getId() << " ";  // Acessa diretamente o ID de Armazem
+        std::cout << atual->item->getId() << " ";  // Acessa diretamente o ID de Armazem
     }
     std::cout << std::endl;
 }
