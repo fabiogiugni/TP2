@@ -9,8 +9,6 @@
     ARMAZENA INFORMAÇÕES SOBRE OS PACOTES, ACHO Q CLASSE EVENTO VAI DE RALO
  */
 
-class Armazem;
-
 class Pacote {
     public:
         Pacote();
@@ -19,10 +17,11 @@ class Pacote {
         int getOrigem();
         int getId();
         int getDestino();
-        void setRota(ListaEncadeada novaRota);
+        void setRota(ListaEncadeada* novaRota);
         void avancarRota();  // Avança para o próximo armazém
-        Armazem* getProximoArmazem() const;  // Acessa o próximo armazém (sem remover)
+        int getProximoArmazem() const;  // Acessa o próximo armazém (sem remover)
         bool chegouAoDestino() const;       // Verifica se a rota acabou
+        void imprimirPacote() const;  // Imprime as informações do pacote
 
     private:
         int tempoChegada;
@@ -38,7 +37,7 @@ class Pacote {
         5- alocado para transporte 
         6- entregue
         */
-        ListaEncadeada rota;
+        ListaEncadeada* rota;
     friend class Armazem;
     friend class Grafo;
     friend class Transporte;

@@ -57,31 +57,36 @@ int main(int argc,char *argv[]){
 
     int numeroPacotes = 0;
     arquivo>>numeroPacotes;
-    return 0;
 
-    //Transporte transp(capacidadeTransporte, latenciaTransporte, intervaloTransportes, mapaArm);
+    Pacote* vetPac = new Pacote[numeroPacotes]; 
     
     for(int i = 0; i < numeroPacotes; i++){
         int tempo = 0;
-        std::cin>>tempo;
+        arquivo >> tempo;
         std::string pac;
-        std::cin >> pac;  // Lê e ignora a palavra "pac"
+        arquivo >> pac;  // Lê e ignora a palavra "pac"
         int id = 0;
+        arquivo >> id;
         std::string org;
-        std::cin >> org;  // Lê e ignora a palavra "org"
+        arquivo >> org;  // Lê e ignora a palavra "org"
         int orgn = 0;
-        std::cin>>orgn;
+        arquivo >> orgn;
         std::string dst;
-        std::cin >> dst;  // Lê e ignora a palavra "dst"
+        arquivo >> dst;  // Lê e ignora a palavra "dst"
         int dest = 0;
-        std::cin>>dest;
+        arquivo >> dest;
 
-        //Pacote* p = new Pacote(tempo, id, orgn, dest);  // Criando o pacote
-
-        // Calculando a rota do pacote (usando o método `calculaRota` da classe Transporte)
-        //transp.inserirPacoteOrigem(p);
-
+        Pacote p(tempo, id, orgn, dest);  // Criando o pacote
+        ListaEncadeada rota = mapaArm.BFS(orgn,dest); //Calcula a rota usando BFS
+        rota.imprime();
+        p.setRota(&rota);
+        vetPac[i] = p;
     }
+
+    for(int i = 0; i < numeroPacotes; i++){
+        vetPac[i].imprimirPacote();
+    }
+
     std::cout<<"fim"<<std::endl;
     return 0;
 }

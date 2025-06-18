@@ -1,14 +1,14 @@
 #include "armazem.hpp"
 #include <iostream>
 
-Armazem::Armazem() : id(0), vizinhos(nullptr), pilhasVizinhos(nullptr), numVizinhos(0) {}
+Armazem::Armazem() : id(0), numVizinhos(0), vizinhos(nullptr), pilhasPacotes(nullptr) {}
 
-Armazem::Armazem(int id) : id(id), vizinhos(nullptr), pilhasVizinhos(nullptr), numVizinhos(0) {}
+Armazem::Armazem(int id) : id(id), numVizinhos(0), vizinhos(nullptr), pilhasPacotes(nullptr) {}
 
 Armazem::~Armazem() {
     // Desalocação de memória
     delete[] vizinhos;  // Libera o vetor de vizinhos
-    delete[] pilhasVizinhos;  // Libera o vetor de pilhas
+    delete[] pilhasPacotes;  // Libera o vetor de pilhas
 }
 
 int Armazem::getId() {
@@ -22,11 +22,11 @@ void Armazem::setId(int id) {
 PilhaEncadeada& Armazem::getSecaoDestino(int vizinhoId) {
     for (int i = 0; i < numVizinhos; i++) {
         if (vizinhos[i] == vizinhoId) {
-            return pilhasVizinhos[i];  // Retorna a pilha de pacotes associada ao vizinho
+            return pilhasPacotes[i];  // Retorna a pilha de pacotes associada ao vizinho
         }
     }
     // Se não encontrar o vizinho, criamos uma nova pilha para ele
-    return pilhasVizinhos[0];  // Retorna a primeira pilha se o vizinho não for encontrado
+    return pilhasPacotes[0];  // Retorna a primeira pilha se o vizinho não for encontrado
 }
 
 void Armazem::inserePacote(Pacote p) {
@@ -34,9 +34,9 @@ void Armazem::inserePacote(Pacote p) {
     secao.Empilha(p.getId());  // Empilha o pacote na seção correspondente
 }
 
-bool Armazem::removerPacote(int vizinhoId, int pacoteId) {
+void Armazem::removerPacote(int vizinhoId, int pacoteId) {
     PilhaEncadeada& secao = getSecaoDestino(vizinhoId);  // Obtém a pilha para o vizinho
-    return secao.removePorId(pacoteId);  // Remove o pacote pela ID
+    secao.removePorId(pacoteId);  // Remove o pacote pela ID
 }
 
 bool Armazem::temPacotes(int vizinhoId) {
@@ -67,7 +67,7 @@ void Armazem::adicionarVizinho(int idVizinho) {
     // Copia os vizinhos e as pilhas antigas
     for (int i = 0; i < numVizinhos; i++) {
         novosVizinhos[i] = vizinhos[i];
-        novasPilhas[i] = pilhasVizinhos[i];
+        novasPilhas[i] = pilhasPacotes[i];
     }
 
     // Adiciona o novo vizinho
@@ -76,11 +76,11 @@ void Armazem::adicionarVizinho(int idVizinho) {
 
     // Desaloca a memória antiga
     delete[] vizinhos;
-    delete[] pilhasVizinhos;
+    delete[] pilhasPacotes;
 
     // Atualiza os ponteiros para os novos arrays
     vizinhos = novosVizinhos;
-    pilhasVizinhos = novasPilhas;
+    pilhasPacotes = novasPilhas;
     numVizinhos++;  // Aumenta o número de vizinhos
 }
 

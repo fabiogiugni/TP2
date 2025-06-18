@@ -1,30 +1,37 @@
 #ifndef HEAP_HPP
 #define HEAP_HPP
-
 #include <iostream>
-#include "evento.hpp"  // Incluindo o arquivo de evento
 
-class Heap {
-public:
-    Heap(); 
-    Heap(int maxsize);
-    ~Heap();
+/*  Você pode inserir os includes necessários para que sua classe funcione.
+ * Alteracoes no arquivo so podem ser feitas quando explicitadas
+ */
 
-    void Inserir(const Evento& e);  // Inserir um evento
-    Evento Remover();               // Remover o evento com o menor tempo (mínimo)
-    
-    bool Vazio() const;
+class Heap{
 
-private:
-    int GetAncestral(int posicao);
-    int GetSucessorEsq(int posicao);
-    int GetSucessorDir(int posicao);
+    public:
+        Heap(int maxsize);
+        ~Heap();
 
-    int tamanho;
-    Evento* data;  // Agora armazenamos Evento em vez de int
+        void Inserir(int x);
+        int Remover();
 
-    void HeapifyPorBaixo(int posicao);
-    void HeapifyPorCima(int posicao);
+        //Retorna true caso o heap esteja vazio, false caso contrário.
+        bool Vazio();
+
+    private:
+        int GetAncestral(int posicao);
+        int GetSucessorEsq(int posicao);
+        int GetSucessorDir(int posicao);
+
+        int tamanho;
+        int* data;
+
+        /* Funções necessárias para implementar o Heapify recursivo
+         * Você pode apagar elas caso decida implementar o Heapify iterativo
+         */
+        void HeapifyPorBaixo(int posicao);
+        void HeapifyPorCima(int posicao);
 };
+
 
 #endif

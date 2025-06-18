@@ -7,9 +7,9 @@ class Pacote;
 
 struct Evento{
     int tempoEvento;
-    int tipoEvento;
-    Pacote* p;
-    std::string descricao; //armazenado/removido/em transito
+    int tipoEvento; //1-pacote 2 - transporte
+    Pacote* p;//infos sobre origem e destino
+    std::string descricao;
 };
 
 #endif

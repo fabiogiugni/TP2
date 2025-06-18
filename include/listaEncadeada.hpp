@@ -15,6 +15,8 @@ class ListaEncadeada{
     
         void insereInicio(int item);
         void insereFinal(int item);
+        void removeInicio();
+        void removeFinal();
         void imprime();
     
     private:
@@ -24,6 +26,7 @@ class ListaEncadeada{
     friend class ListaAdjacencia;
     friend class Grafo;
     friend class Armazem;
+    friend class Pacote;
 };
 
 #endif

@@ -9,6 +9,7 @@ SOURCE_FILES = $(SRC_DIR)main.cpp \
                $(SRC_DIR)pilhaEncadeada.cpp \
                $(SRC_DIR)listaAdjacencia.cpp \
                $(SRC_DIR)graph.cpp \
+               $(SRC_DIR)pacote.cpp \
                $(SRC_DIR)armazem.cpp \
 
 all: 

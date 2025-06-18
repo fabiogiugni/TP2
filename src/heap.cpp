@@ -1,91 +1,78 @@
 #include "heap.hpp"
-#include <stdexcept>  // Para exceções
 
-Heap::Heap() {
+Heap::Heap(int maxSize){
     tamanho = 0;
-    data = new Evento[100];  // Tamanho padrão (???????????)
+    data = new int[maxSize];
 }
 
-Heap::Heap(int maxSize) {
-    tamanho = 0;
-    data = new Evento[maxSize];  // Agora a heap armazena Eventos
-}
-
-Heap::~Heap() {
+Heap::~Heap(){
     delete[] data;
 }
 
-bool Heap::Vazio() const {
+bool Heap::Vazio(){
     return (tamanho == 0);
 }
 
-int Heap::GetAncestral(int posicao) {
-    return (posicao - 1) / 2;
+int Heap::GetAncestral(int posicao){
+    return (posicao - 1)/2;
+}
+int Heap::GetSucessorEsq(int posicao){
+    return (2*posicao + 1);
+}
+int Heap::GetSucessorDir(int posicao){
+    return (2*posicao + 2);
 }
 
-int Heap::GetSucessorEsq(int posicao) {
-    return (2 * posicao + 1);
-}
-
-int Heap::GetSucessorDir(int posicao) {
-    return (2 * posicao + 2);
-}
-
-// Inserir um evento na heap
-void Heap::Inserir(const Evento& e) {
-    data[tamanho] = e;  // Armazena o evento na posição
+void Heap::Inserir(int x){
+    data[tamanho] = x;
     ++tamanho;
-    HeapifyPorCima(tamanho - 1);  // Reorganiza a heap para manter a ordem
+    HeapifyPorCima(tamanho-1);
 }
 
-// Remover o evento com o menor tempo (mínimo)
-Evento Heap::Remover() {
-    if (Vazio()) {
-        throw std::out_of_range("Heap vazia!");
+int Heap::Remover(){
+    if(Vazio()){
+        return 0;
+    }else{
+        int output = data[0];
+        data[0] = data[tamanho-1];
+        --tamanho;
+        HeapifyPorBaixo(0);
+        return output;
     }
-
-    Evento output = data[0];  // O evento com o menor tempo
-    data[0] = data[tamanho - 1];  // Coloca o último evento no topo
-    --tamanho;
-    HeapifyPorBaixo(0);  // Reorganiza a heap para manter a ordem
-
-    return output;
 }
 
-// Organizar o heap para cima (subir)
-void Heap::HeapifyPorCima(int posicao) {
-    while (posicao > 0 && data[posicao].tempoEvento < data[GetAncestral(posicao)].tempoEvento) {
-        Evento temp = data[GetAncestral(posicao)];
+void Heap::HeapifyPorCima(int posicao){
+    while(posicao > 0 && data[posicao] < data[GetAncestral(posicao)]){
+        int temp = data[GetAncestral(posicao)];
         data[GetAncestral(posicao)] = data[posicao];
         data[posicao] = temp;
         posicao = GetAncestral(posicao);
     }
 }
 
-// Organizar o heap para baixo (descer)
 void Heap::HeapifyPorBaixo(int posicao) {
+    // Enquanto houver filhos para comparar
     while (posicao < tamanho) {
         int esq = GetSucessorEsq(posicao);
         int dir = GetSucessorDir(posicao);
 
         int pai = posicao;
         
-        // Verifica o menor entre o nó atual e seus filhos
-        if (esq < tamanho && data[esq].tempoEvento < data[pai].tempoEvento) {
+        if (esq < tamanho && data[esq] < data[pai]){
             pai = esq;
         }
-
-        if (dir < tamanho && data[dir].tempoEvento < data[pai].tempoEvento) {
+        
+        if (dir < tamanho && data[dir] < data[pai]){
             pai = dir;
         }
-
-        if (pai != posicao) {
-            Evento temp = data[posicao];
+        
+        if (pai != posicao){
+            int temp = data[posicao];
             data[posicao] = data[pai];
             data[pai] = temp;
-            posicao = pai;
+            posicao = pai; // continue o heapify na posição do maior filho
         } else {
-            break;  // O nó já está na posição correta
+            break; // se o nó já está na posição correta, interrompe o loop
         }
     }
 }

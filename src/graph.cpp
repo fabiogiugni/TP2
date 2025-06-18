@@ -10,7 +10,7 @@ void Grafo::InsereVertice(){
 }
 
 void Grafo::InsereAresta(int v, int w){
-    vertices.insereAresta(v, w);
+    vertices.insereAresta(v,w);
 }
 
 int Grafo::QuantidadeVertices(){
@@ -19,10 +19,10 @@ int Grafo::QuantidadeVertices(){
 
 int Grafo::QuantidadeArestas(){
     int arestas = 0;
-    for(int i = 0; i < vertices.numVertices; ++i){
-        arestas += vertices.listaAdj[i].tamanho;
+    for(int i=0 ; i < vertices.numVertices ; ++i){
+        arestas+=vertices.listaAdj[i].tamanho;
     }
-    return arestas / 2;
+    return arestas/2;
 }
 
 int Grafo::GrauMinimo(){
@@ -57,10 +57,10 @@ ListaEncadeada Grafo::BFS(int origem, int destino) {
 
     while (!fila.vazia()) {
         int v = fila.Desenfileira();
-        No* atual = vertices.listaAdj[v].primeiro;  // Usando No diretamente
+        No* atual = vertices.listaAdj[v].primeiro;
 
         while (atual != nullptr) {
-            int w = atual->item;  // Usando inteiros diretamente, sem Armazem
+            int w = atual->item;
             if (!visitado[w]) {
                 visitado[w] = true;
                 distancia[w] = distancia[v] + 1;
@@ -73,19 +73,11 @@ ListaEncadeada Grafo::BFS(int origem, int destino) {
 
     ListaEncadeada rota;
 
-    if (distancia[destino] == -1) {
-        std::cout << "Destino " << destino << " não alcançável a partir de " << origem << "\n";
-        delete[] visitado;
-        delete[] distancia;
-        delete[] predecessor;
-        return rota;
-    }
-
-    // Reconstrução do caminho
     for (int v = destino; v != -1; v = predecessor[v]) {
         rota.insereInicio(v);  // Inserindo apenas o índice dos vértices
     }
 
+    // Libera a memória alocada para visitado, distancia e predecessor
     delete[] visitado;
     delete[] distancia;
     delete[] predecessor;
