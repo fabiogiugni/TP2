@@ -1,4 +1,4 @@
-// Dentro de escalonador.cpp
+/*// Dentro de escalonador.cpp
 #include <iomanip>  // para setw e setfill
 #include "escalonador.hpp"
 

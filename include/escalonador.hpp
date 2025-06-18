@@ -1,4 +1,4 @@
-#ifndef ESCALONADOR_HPP
+/*#ifndef ESCALONADOR_HPP
 #define ESCALONADOR_HPP
 
 #include "pacote.hpp"

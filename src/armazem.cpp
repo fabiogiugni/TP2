@@ -1,57 +1,98 @@
 #include "armazem.hpp"
+#include <iostream>
 
-Armazem::Armazem() : id(-1) {}
+Armazem::Armazem() : id(0), vizinhos(nullptr), pilhasVizinhos(nullptr), numVizinhos(0) {}
 
-Armazem::Armazem(int id): id(id) {}
+Armazem::Armazem(int id) : id(id), vizinhos(nullptr), pilhasVizinhos(nullptr), numVizinhos(0) {}
 
 Armazem::~Armazem() {
-    // A lista encadeada e as filas são gerenciadas automaticamente
+    // Desalocação de memória
+    delete[] vizinhos;  // Libera o vetor de vizinhos
+    delete[] pilhasVizinhos;  // Libera o vetor de pilhas
 }
 
-int Armazem::getId(){
+int Armazem::getId() {
     return id;
 }
 
-void Armazem::setId(int id){
+void Armazem::setId(int id) {
     this->id = id;
 }
 
+PilhaEncadeada& Armazem::getSecaoDestino(int vizinhoId) {
+    for (int i = 0; i < numVizinhos; i++) {
+        if (vizinhos[i] == vizinhoId) {
+            return pilhasVizinhos[i];  // Retorna a pilha de pacotes associada ao vizinho
+        }
+    }
+    // Se não encontrar o vizinho, criamos uma nova pilha para ele
+    return pilhasVizinhos[0];  // Retorna a primeira pilha se o vizinho não for encontrado
+}
+
 void Armazem::inserePacote(Pacote p) {
-    int prox = p.getProximoArmazem()->id;
-    getSecaoDestino(prox).Empilha(p);
+    PilhaEncadeada& secao = getSecaoDestino(p.getDestino());  // Obtém a pilha para o destino do pacote
+    secao.Empilha(p.getId());  // Empilha o pacote na seção correspondente
 }
 
+bool Armazem::removerPacote(int vizinhoId, int pacoteId) {
+    PilhaEncadeada& secao = getSecaoDestino(vizinhoId);  // Obtém a pilha para o vizinho
+    return secao.removePorId(pacoteId);  // Remove o pacote pela ID
+}
 
-PilhaEncadeada<Pacote>& Armazem::getSecaoDestino(int destino) {
-    for (No<DestinoSecao>* atual = listaDestinoSecao.primeiro; atual != nullptr; atual = atual->prox) {
-        if (atual->item.destino == destino) {
-            return atual->item.secao;
-        }
+bool Armazem::temPacotes(int vizinhoId) {
+    PilhaEncadeada& secao = getSecaoDestino(vizinhoId);  // Obtém a pilha para o vizinho
+    return !secao.Vazio();  // Verifica se a pilha de pacotes está vazia
+}
+
+int Armazem::quantidadePacotes(int vizinhoId) {
+    PilhaEncadeada& secao = getSecaoDestino(vizinhoId);  // Obtém a pilha para o vizinho
+    return secao.Tamanho();  // Retorna o número de pacotes na pilha
+}
+
+void Armazem::esvaziarSecao(int vizinhoId) {
+    PilhaEncadeada& secao = getSecaoDestino(vizinhoId);  // Obtém a pilha para o vizinho
+    secao.Limpa();  // Limpa a pilha de pacotes
+}
+
+void Armazem::visualizarPacotes(int vizinhoId) {
+    PilhaEncadeada& secao = getSecaoDestino(vizinhoId);  // Obtém a pilha para o vizinho
+    secao.imprime();  // Exibe os pacotes da pilha
+}
+
+void Armazem::adicionarVizinho(int idVizinho) {
+    // Aumenta o número de vizinhos
+    int* novosVizinhos = new int[numVizinhos + 1]; 
+    PilhaEncadeada* novasPilhas = new PilhaEncadeada[numVizinhos + 1];
+
+    // Copia os vizinhos e as pilhas antigas
+    for (int i = 0; i < numVizinhos; i++) {
+        novosVizinhos[i] = vizinhos[i];
+        novasPilhas[i] = pilhasVizinhos[i];
     }
 
-    // Se não encontrou, cria uma nova seção
-    DestinoSecao nova;
-    nova.destino = destino;
-    listaDestinoSecao.insereFinal(nova);
+    // Adiciona o novo vizinho
+    novosVizinhos[numVizinhos] = idVizinho;
+    novasPilhas[numVizinhos] = PilhaEncadeada();  // Nova pilha para o novo vizinho
 
-    return listaDestinoSecao.ultimo->item.secao;
+    // Desaloca a memória antiga
+    delete[] vizinhos;
+    delete[] pilhasVizinhos;
+
+    // Atualiza os ponteiros para os novos arrays
+    vizinhos = novosVizinhos;
+    pilhasVizinhos = novasPilhas;
+    numVizinhos++;  // Aumenta o número de vizinhos
 }
 
-bool Armazem::removerPacote(int destino, int pacoteId) {
-    // Percorre a lista de destinos e seções
-    for (No<DestinoSecao>* atual = listaDestinoSecao.primeiro; atual != nullptr; atual = atual->prox) {
-        if (atual->item.destino == destino) {
-            // Encontrou a seção de destino. Agora remove o pacote da pilha (seção)
-            return atual->item.secao.removePorId(pacoteId);  // Remove o pacote pela ID na pilha
-        }
+void Armazem::imprimeVizinhos() const {
+    std::cout << "Vizinhos do Armazem " << id << ": ";
+    if (numVizinhos == 0) {
+        std::cout << "Nenhum vizinho encontrado." << std::endl;
+        return;
     }
 
-    // Se não encontrou a seção, retorna false
-    return false;
-}
-
-std::ostream& operator<<(std::ostream& os, const Armazem& armazem) {
-    // Aqui você decide o que imprimir de Armazem. Exemplo:
-    os << armazem.id;  // Imprimindo um atributo "id"
-    return os;
+    for (int i = 0; i < numVizinhos; i++) {
+        std::cout << vizinhos[i] << " ";  // Imprime o ID do vizinho
+    }
+    std::cout << std::endl;  // Quebra a linha após listar todos os vizinhos
 }

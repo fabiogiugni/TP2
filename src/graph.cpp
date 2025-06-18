@@ -1,53 +1,43 @@
 #include <iostream>
 #include "graph.hpp"
-#include "armazem.hpp"
-#include "listaAdjacencia.hpp"
 
-Grafo::Grafo(int numeroArmazens) : vertices(numeroArmazens), numeroArmazens(numeroArmazens) {
-    armazens = new Armazem*[numeroArmazens];  // Aloca um vetor de ponteiros para Armazem
+Grafo::Grafo(): vertices(0){}
+
+Grafo::~Grafo() {}
+
+void Grafo::InsereVertice(){
+    vertices.insereVertice();
 }
 
-Grafo::~Grafo() {
-    // Libera a memória alocada para os armazéns
-    delete[] armazens;
+void Grafo::InsereAresta(int v, int w){
+    vertices.insereAresta(v, w);
 }
 
-void Grafo::InsereVertice(Armazem* armazem) {
-    armazens[numeroArmazens - 1] = armazem;  // Coloca o ponteiro no índice apropriado
-    numeroArmazens++;
+int Grafo::QuantidadeVertices(){
+    return vertices.numVertices;
 }
 
-void Grafo::InsereAresta(int v, Armazem* armazemDestino) {
-    // Insere a aresta entre o vértice v e o armazém destino, passando o ponteiro para o armazém
-    vertices.insereAresta(v, armazemDestino);  // Insere o ponteiro do armazém na lista de adjacência
-}
-
-int Grafo::QuantidadeVertices() {
-    return vertices.numVertices;  // Retorna a quantidade de vértices (armazéns)
-}
-
-int Grafo::QuantidadeArestas() {
+int Grafo::QuantidadeArestas(){
     int arestas = 0;
-    for (int i = 0; i < vertices.numVertices; ++i) {
+    for(int i = 0; i < vertices.numVertices; ++i){
         arestas += vertices.listaAdj[i].tamanho;
     }
-    return arestas / 2;  // Divide por 2 para não contar arestas duplicadas
+    return arestas / 2;
 }
 
-int Grafo::GrauMinimo() {
-    return vertices.grauMinimo();  // Chama a função da lista de adjacência para grau mínimo
+int Grafo::GrauMinimo(){
+    return vertices.grauMinimo();
 }
 
-int Grafo::GrauMaximo() {
-    return vertices.grauMaximo();  // Chama a função da lista de adjacência para grau máximo
+int Grafo::GrauMaximo(){
+    return vertices.grauMaximo();
 }
 
-void Grafo::ImprimeVizinhos() {
-    // Imprime os vizinhos de cada vértice (armazém)
-    vertices.imprimeVizinhos();  // Chama a função de impressão de vizinhos da lista de adjacência
+void Grafo::ImprimeVizinhos(int v){
+    vertices.listaAdj[v].imprime();
 }
 
-ListaEncadeada<Armazem*> Grafo::BFS(int origem, int destino) {
+ListaEncadeada Grafo::BFS(int origem, int destino) {
     int n = vertices.numVertices;
 
     bool* visitado = new bool[n];
@@ -60,29 +50,28 @@ ListaEncadeada<Armazem*> Grafo::BFS(int origem, int destino) {
         predecessor[i] = -1;
     }
 
-    Fila<int> fila;
+    Fila fila;
     visitado[origem] = true;
     distancia[origem] = 0;
     fila.Enfileira(origem);
 
     while (!fila.vazia()) {
         int v = fila.Desenfileira();
-        No<Armazem*>* atual = vertices.listaAdj[v].primeiro;
+        No* atual = vertices.listaAdj[v].primeiro;  // Usando No diretamente
 
         while (atual != nullptr) {
-            Armazem* w = atual->item;
-            int idW = w->getId();
-            if (!visitado[idW]) {
-                visitado[idW] = true;
-                distancia[idW] = distancia[v] + 1;
-                predecessor[idW] = v;
-                fila.Enfileira(idW);
+            int w = atual->item;  // Usando inteiros diretamente, sem Armazem
+            if (!visitado[w]) {
+                visitado[w] = true;
+                distancia[w] = distancia[v] + 1;
+                predecessor[w] = v;
+                fila.Enfileira(w);
             }
             atual = atual->prox;
         }
     }
 
-    ListaEncadeada<Armazem*> rota;
+    ListaEncadeada rota;
 
     if (distancia[destino] == -1) {
         std::cout << "Destino " << destino << " não alcançável a partir de " << origem << "\n";
@@ -92,9 +81,9 @@ ListaEncadeada<Armazem*> Grafo::BFS(int origem, int destino) {
         return rota;
     }
 
+    // Reconstrução do caminho
     for (int v = destino; v != -1; v = predecessor[v]) {
-        Armazem* a = vertices.listaAdj[v].primeiro->item;
-        rota.insereInicio(a);
+        rota.insereInicio(v);  // Inserindo apenas o índice dos vértices
     }
 
     delete[] visitado;
@@ -103,4 +92,3 @@ ListaEncadeada<Armazem*> Grafo::BFS(int origem, int destino) {
 
     return rota;
 }
-

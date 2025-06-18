@@ -2,33 +2,36 @@
 #define GRAPH_HPP
 
 #include "listaAdjacencia.hpp"
-#include "armazem.hpp"
+#include "fila.hpp"
 
-class Grafo {
-public:
-    Grafo(int numeroArmazens);
-    ~Grafo();
+/*  
+    INFORMAÇÕES DAS LIGAÇÕES ENTRE OS ARMAZENS E CALCULA ROTA DO PACOTE POR BFS
+ */
 
-    void InsereVertice(Armazem* armazem);  // Agora insere ponteiro para Armazem
-    void InsereAresta(int v, Armazem* armazemDestino);  
 
-    int QuantidadeVertices();
-    int QuantidadeArestas();
+class Grafo{
+    public:
+        Grafo();
+        ~Grafo();
 
-    int GrauMinimo();
-    int GrauMaximo();
+        void InsereVertice();
+        void InsereAresta(int v, int w);
 
-    void ImprimeVizinhos();
-    ListaEncadeada<Armazem*> BFS(int origem, int destino);
+        int QuantidadeVertices();
+        int QuantidadeArestas();
 
-private:
-    ListaAdjacencia vertices;  // Lista de adjacência
-    Armazem** armazens;  // Agora é um vetor de ponteiros para Armazem
-    int numeroArmazens;
+        int GrauMinimo();
+        int GrauMaximo();
 
-    friend class Transporte;
-    friend class Escalonador;
+        void ImprimeVizinhos(int v);
+        ListaEncadeada BFS(int origem, int destino);
+    private:
+        
+        /*  Você deve implementar ListaAdjacencia como um TAD que irá armazenar
+         * os dados do grafo. Lembrando que este TAD deve ser uma lista 
+         * encadeada
+         */
+        ListaAdjacencia vertices;
 };
-
 
 #endif

@@ -1,7 +1,9 @@
-#include "pacote.hpp"
+//#include "pacote.hpp"
+//#include "armazem.hpp"
+#include "pilhaEncadeada.hpp"
+#include "graph.hpp"
 #include "armazem.hpp"
-#include "transporte.hpp"
-#include "escalonador.hpp"
+
 #include <fstream>
 
 int main(int argc,char *argv[]){
@@ -29,13 +31,13 @@ int main(int argc,char *argv[]){
     int numeroArmazens = 0;
     arquivo>>numeroArmazens;
 
-    Grafo mapaArm(numeroArmazens);
-
+    Grafo mapaArm;
     Armazem* vetArm = new Armazem[numeroArmazens]; 
+
 
     for(int i = 0; i < numeroArmazens; i++){
         vetArm[i].setId(i);
-        mapaArm.InsereVertice(&vetArm[i]);
+        mapaArm.InsereVertice();
     }
     
     for(int i = 0; i < numeroArmazens; i++){
@@ -43,19 +45,21 @@ int main(int argc,char *argv[]){
             int temAresta = 0;
             arquivo>>temAresta;
             if(temAresta == 1){
-                mapaArm.InsereAresta(i,&vetArm[i]);
+                mapaArm.InsereAresta(i,j);
+                vetArm[i].adicionarVizinho(j);
             }
         }
     }
 
-    
-    mapaArm.ImprimeVizinhos();
+    for(int i = 0; i < numeroArmazens; i++){
+        vetArm[i].imprimeVizinhos();
+    }
 
     int numeroPacotes = 0;
     arquivo>>numeroPacotes;
     return 0;
 
-    Transporte transp(capacidadeTransporte, latenciaTransporte, intervaloTransportes, mapaArm);
+    //Transporte transp(capacidadeTransporte, latenciaTransporte, intervaloTransportes, mapaArm);
     
     for(int i = 0; i < numeroPacotes; i++){
         int tempo = 0;
@@ -72,10 +76,10 @@ int main(int argc,char *argv[]){
         int dest = 0;
         std::cin>>dest;
 
-        Pacote* p = new Pacote(tempo, id, orgn, dest);  // Criando o pacote
+        //Pacote* p = new Pacote(tempo, id, orgn, dest);  // Criando o pacote
 
         // Calculando a rota do pacote (usando o método `calculaRota` da classe Transporte)
-        transp.inserirPacoteOrigem(p);
+        //transp.inserirPacoteOrigem(p);
 
     }
     std::cout<<"fim"<<std::endl;

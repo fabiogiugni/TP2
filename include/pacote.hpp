@@ -4,6 +4,11 @@
 #include "listaEncadeada.hpp"
 #include "armazem.hpp"
 
+
+/*  
+    ARMAZENA INFORMAÇÕES SOBRE OS PACOTES, ACHO Q CLASSE EVENTO VAI DE RALO
+ */
+
 class Armazem;
 
 class Pacote {
@@ -14,7 +19,7 @@ class Pacote {
         int getOrigem();
         int getId();
         int getDestino();
-        void setRota(ListaEncadeada<Armazem*> novaRota);
+        void setRota(ListaEncadeada novaRota);
         void avancarRota();  // Avança para o próximo armazém
         Armazem* getProximoArmazem() const;  // Acessa o próximo armazém (sem remover)
         bool chegouAoDestino() const;       // Verifica se a rota acabou
@@ -24,6 +29,7 @@ class Pacote {
         int id;
         int armazemOrigem;
         int armazemDestino;
+        int estadoPacote;
         /* 
         1- não postado 
         2- chegada escalonada(já anotada) a um armazem 
@@ -32,7 +38,7 @@ class Pacote {
         5- alocado para transporte 
         6- entregue
         */
-        ListaEncadeada<Armazem*> rota;
+        ListaEncadeada rota;
     friend class Armazem;
     friend class Grafo;
     friend class Transporte;

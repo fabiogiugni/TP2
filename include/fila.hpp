@@ -2,23 +2,20 @@
 #define FILA_HPP
 
 #include <iostream>
-#include "no.hpp"
+#include "listaEncadeada.hpp"
 
-template<typename T>
-class Fila{
-    public:
-        Fila();
-        ~Fila();
-        void Enfileira(const T& valor);
-        T Desenfileira();
-        bool vazia() const;
+class Fila {
+public:
+    Fila();
+    ~Fila();
 
-    private:
-        No<T>* primeiro;
-        No<T>* ultimo;
-    friend class Grafo;
+    void Enfileira(int valor);
+    int Desenfileira();
+    bool vazia() const;
+
+private:
+    No* primeiro;
+    No* ultimo;
 };
-
-#include "fila.tpp"
 
 #endif

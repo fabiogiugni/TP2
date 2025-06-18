@@ -2,33 +2,28 @@
 #define LISTAENCADEADA_HPP
 
 #include <iostream>
-#include "no.hpp"
 
-template <typename T>
+struct No{
+    int item;
+    No* prox;
+};
+
 class ListaEncadeada{
     public:
         ListaEncadeada();
         ~ListaEncadeada();
     
-        void insereInicio(const T& item);
-        void insereFinal(const T& item);
-        void imprime() const;
-        int getTamanho() const;
-        T getPrimeiro() const;
-        void removeInicio();
-        void limpa();
+        void insereInicio(int item);
+        void insereFinal(int item);
+        void imprime();
     
     private:
-        No<T> *primeiro;
-        No<T> *ultimo;
+        No *primeiro;
+        No *ultimo;
         int tamanho;
-    friend class Pacote;
     friend class ListaAdjacencia;
     friend class Grafo;
     friend class Armazem;
-    friend class Transporte;
 };
-
-#include "listaEncadeada.tpp"
 
 #endif

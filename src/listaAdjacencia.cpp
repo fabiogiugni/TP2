@@ -1,86 +1,63 @@
 #include "listaAdjacencia.hpp"
-#include <iostream>
 
-// Construtor sem parâmetros
-ListaAdjacencia::ListaAdjacencia() {
-    listaAdj = new ListaEncadeada<Armazem*>[0];
-    numVertices = 0;
+ListaAdjacencia::ListaAdjacencia(){
+    listaAdj = new ListaEncadeada[0];
 }
 
-// Construtor com número de vértices
-ListaAdjacencia::ListaAdjacencia(int vertices) : numVertices(vertices) {
-    if (numVertices < 0) {
-        std::cout << "Erro: número de vértices inválido!" << std::endl;
-        return;
-    }
-    listaAdj = new ListaEncadeada<Armazem*>[numVertices];
+ListaAdjacencia::ListaAdjacencia(int vertices) : numVertices(vertices){
+    listaAdj = new ListaEncadeada[numVertices];
 }
 
-// Destruidor
-ListaAdjacencia::~ListaAdjacencia() {
-    for (int i = 0; i < numVertices; ++i) {
-        listaAdj[i].limpa();  // Limpa os nós, mas não deleta os Armazéns (só os nós)
-    }
+ListaAdjacencia::~ListaAdjacencia(){
     delete[] listaAdj;
 }
 
-// Insere aresta entre os vértices v e w
-void ListaAdjacencia::insereAresta(int v, Armazem* armazemDestino) {
-    listaAdj[v].insereFinal(armazemDestino);
+void ListaAdjacencia::insereAresta(int v, int w){
+    listaAdj[v].insereFinal(w);
 }
 
-// Retorna o grau mínimo dos vértices
-int ListaAdjacencia::grauMinimo() {
-    if (numVertices == 0) return 0;
-    int min = listaAdj[0].getTamanho();
-    for (int i = 1; i < numVertices; ++i) {
-        int atual = listaAdj[i].getTamanho();
-        if (atual < min)
-            min = atual;
+int ListaAdjacencia::grauMinimo(){
+    int min = listaAdj[0].tamanho;
+    int atual=0;
+    for(int i=1; i<numVertices;++i){
+        atual = listaAdj[i].tamanho;
+        if(min>atual)
+        min = atual;
     }
     return min;
 }
 
-// Retorna o grau máximo dos vértices
-int ListaAdjacencia::grauMaximo() {
-    if (numVertices == 0) return 0;
-    int max = listaAdj[0].getTamanho();
-    for (int i = 1; i < numVertices; ++i) {
-        int atual = listaAdj[i].getTamanho();
-        if (atual > max)
-            max = atual;
+int ListaAdjacencia::grauMaximo(){
+    int max = listaAdj[0].tamanho;
+    int atual=0;
+    for(int i=1; i<numVertices;++i){
+        atual = listaAdj[i].tamanho;
+        if(max<atual)
+        max = atual;
     }
     return max;
 }
 
-// Imprime os vizinhos de cada vértice
-void ListaAdjacencia::imprimeVizinhos() {
-    for (int i = 0; i < numVertices; i++) {
+void ListaAdjacencia::imprimeVizinhos(){
+    for (int i = 0; i < numVertices; i++){
         std::cout << "Vértice " << i << ": ";
-        No<Armazem*>* atual = listaAdj[i].primeiro;
-        while (atual != nullptr) {
-            std::cout << atual->item->getId() << " ";
-            atual = atual->prox;
-        }
-        std::cout << std::endl;
+        listaAdj[i].imprime();
     }
 }
 
-// Insere um novo vértice
-void ListaAdjacencia::insereVertice() {
-    ListaEncadeada<Armazem*>* novaListaAdj = new ListaEncadeada<Armazem*>[numVertices + 1];
+void ListaAdjacencia::insereVertice(){
+    // Aloca novo array com tamanho maior
+    ListaEncadeada *novaListaAdj = new ListaEncadeada[numVertices + 1];
 
-    for (int i = 0; i < numVertices; i++) {
+    // Copia as listas de adjacência antigas para o novo array
+    for (int i = 0; i < numVertices; i++){
         novaListaAdj[i] = listaAdj[i];
     }
 
+    // Deleta o array antigo
     delete[] listaAdj;
+
+    // Atualiza o ponteiro adjList para o novo array e incrementa numVertices
     listaAdj = novaListaAdj;
     ++numVertices;
-}
-
-// Insere pacote em um armazém baseado na origem
-void ListaAdjacencia::inserePacote(Pacote* p) {
-    Armazem* armazemDestino = listaAdj[p->getOrigem()].primeiro->item;
-    armazemDestino->inserePacote(*p);
 }

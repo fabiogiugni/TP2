@@ -10,7 +10,7 @@ Pacote::~Pacote() {
     // Não precisa de ação manual aqui, pois a ListaEncadeada cuida da destruição
 }
 
-void Pacote::setRota(ListaEncadeada<Armazem*> novaRota){
+void Pacote::setRota(ListaEncadeada novaRota){
     rota = novaRota;
 }
 
