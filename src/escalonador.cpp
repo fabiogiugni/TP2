@@ -37,3 +37,13 @@ Escalonador::~Escalonador() {
     delete[] vetArm;
 }
 
+Pacote* Escalonador::transformaChave(int chave){
+    Pacote* p;
+    if(chave % 2 == 1){
+        int id = ((chave % 10000000) - 1) / 10;
+        int tempo_agora = (chave - id - 1)/10000000;
+        *p = vetPac[id];
+    }else{
+        
+    }
+}

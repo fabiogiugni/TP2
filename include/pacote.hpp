@@ -20,7 +20,7 @@ class Pacote {
         int getChavePacote();
         void setRota(ListaEncadeada* novaRota);
         void avancarRota();  // Avança para o próximo armazém
-        int getArmazemAtual() const;
+        int getArmazemAtual() const;    //Acessa o armazém atual
         int getProximoArmazem() const;  // Acessa o próximo armazém (sem remover)
         bool chegouAoDestino() const;       // Verifica se a rota acabou
         void imprimirPacote() const;  // Imprime as informações do pacote

@@ -1,14 +1,15 @@
 #include "armazem.hpp"
 #include <iostream>
 
-Armazem::Armazem() : id(0), numVizinhos(0), vizinhos(nullptr), pilhasPacotes(nullptr) {}
+Armazem::Armazem() : id(0), numVizinhos(0), vizinhos(nullptr), pilhasPacotes(nullptr),pilhasTransporte(nullptr) {}
 
-Armazem::Armazem(int id) : id(id), numVizinhos(0), vizinhos(nullptr), pilhasPacotes(nullptr) {}
+Armazem::Armazem(int id) : id(id), numVizinhos(0), vizinhos(nullptr), pilhasPacotes(nullptr),pilhasTransporte(nullptr) {}
 
 Armazem::~Armazem() {
     // Desalocação de memória
-    delete[] vizinhos;  // Libera o vetor de vizinhos
-    delete[] pilhasPacotes;  // Libera o vetor de pilhas
+    delete[] vizinhos;          // Libera o vetor de vizinhos
+    delete[] pilhasPacotes;     // Libera o vetor de pilhas de pacotes
+    delete[] pilhasTransporte;  // Libera o vetor de pilhas de transporte
 }
 
 int Armazem::getId() {
@@ -29,10 +30,26 @@ PilhaEncadeada& Armazem::getSecaoDestino(int vizinhoId) {
     return pilhasPacotes[0];  // Retorna a primeira pilha se o vizinho não for encontrado
 }
 
+PilhaEncadeada& Armazem::getSecaoDestinoTransporte(int vizinhoId) {
+    for (int i = 0; i < numVizinhos; i++) {
+        if (vizinhos[i] == vizinhoId) {
+            return pilhasTransporte[i];  // Retorna a pilha de transporte associada ao vizinho
+        }
+    }
+    // Se não encontrar o vizinho, criamos uma nova pilha para ele
+    return pilhasTransporte[0];  // Retorna a primeira pilha se o vizinho não for encontrado
+}
+
 void Armazem::inserePacote(Pacote p) {
     PilhaEncadeada& secao = getSecaoDestino(p.getDestino());  // Obtém a pilha para o destino do pacote
     secao.Empilha(p.getId());  // Empilha o pacote na seção correspondente
 }
+
+void Armazem::inserePacoteTransporte(Pacote p, int vizinhoId) {
+    PilhaEncadeada& secaoTransporte = getSecaoDestinoTransporte(vizinhoId);  // Obtém a pilha de transporte para o vizinho
+    secaoTransporte.Empilha(p.getId());  // Empilha o pacote na pilha de transporte
+}
+
 
 void Armazem::removerPacote(int vizinhoId, int pacoteId) {
     PilhaEncadeada& secao = getSecaoDestino(vizinhoId);  // Obtém a pilha para o vizinho
@@ -63,26 +80,32 @@ void Armazem::adicionarVizinho(int idVizinho) {
     // Aumenta o número de vizinhos
     int* novosVizinhos = new int[numVizinhos + 1]; 
     PilhaEncadeada* novasPilhas = new PilhaEncadeada[numVizinhos + 1];
+    PilhaEncadeada* novasPilhasTransporte = new PilhaEncadeada[numVizinhos + 1];  // Aloca memória para pilhas de transporte
 
     // Copia os vizinhos e as pilhas antigas
     for (int i = 0; i < numVizinhos; i++) {
         novosVizinhos[i] = vizinhos[i];
         novasPilhas[i] = pilhasPacotes[i];
+        novasPilhasTransporte[i] = pilhasTransporte[i];  // Copia as pilhas de transporte
     }
 
     // Adiciona o novo vizinho
     novosVizinhos[numVizinhos] = idVizinho;
     novasPilhas[numVizinhos] = PilhaEncadeada();  // Nova pilha para o novo vizinho
+    novasPilhasTransporte[numVizinhos] = PilhaEncadeada();  // Nova pilha de transporte para o novo vizinho
 
     // Desaloca a memória antiga
     delete[] vizinhos;
     delete[] pilhasPacotes;
+    delete[] pilhasTransporte;  // Libera o antigo vetor de pilhas de transporte
 
     // Atualiza os ponteiros para os novos arrays
     vizinhos = novosVizinhos;
     pilhasPacotes = novasPilhas;
+    pilhasTransporte = novasPilhasTransporte;  // Atualiza o ponteiro de pilhas de transporte
     numVizinhos++;  // Aumenta o número de vizinhos
 }
+
 
 void Armazem::imprimeVizinhos() const {
     std::cout << "Vizinhos do Armazem " << id << ": ";

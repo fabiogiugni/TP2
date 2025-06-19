@@ -10,7 +10,9 @@ class Escalonador {
 public:
     Escalonador(int capacidadeTransporte, int latenciaTransporte, int intervaloTransporte, Pacote* pacotes, int numPacotes, Armazem* armazens, int numArmazens) ;
     ~Escalonador();
-
+    void processaEvento();
+    Pacote* transformaChave(int chaveHeap);
+    //fazer a funcao da chave do heap, fazer todos os transportes e depois a logica do escalonador em si.
 private:
     Heap heapEventos;  // Min-heap que armazena eventos
     int capacidadeTransporte;

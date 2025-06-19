@@ -18,10 +18,11 @@ public:
     
     // Método para obter a pilha associada ao armazem vizinho
     PilhaEncadeada& getSecaoDestino(int destinoId);
+    PilhaEncadeada& getSecaoDestinoTransporte(int vizinhoId);
 
     // Insere um pacote na seção apropriada (associado a um vizinho)
     void inserePacote(Pacote Pac);
-
+    void inserePacoteTransporte(Pacote p, int vizinhoId);
     // Define o ID do armazém
     void setId(int id);
 
@@ -53,6 +54,7 @@ private:
     int numVizinhos;  // Número de vizinhos
     int* vizinhos;  // Vetor de IDs de vizinhos
     PilhaEncadeada* pilhasPacotes;  // Vetor de pilhas de id's de pacotes
+    PilhaEncadeada* pilhasTransporte; //Vetor de pilhas de id's de pacotes em transporte
     friend class Escalonador;
 };
 

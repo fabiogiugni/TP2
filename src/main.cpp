@@ -65,8 +65,8 @@ int main(int argc,char *argv[]){
         arquivo >> tempo;
         std::string pac;
         arquivo >> pac;  // Lê e ignora a palavra "pac"
-        int id = 0;
-        arquivo >> id;
+        int id = i;
+        //arquivo >> id; Aparentemente o id é o i.
         std::string org;
         arquivo >> org;  // Lê e ignora a palavra "org"
         int orgn = 0;
