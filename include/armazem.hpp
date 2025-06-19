@@ -53,6 +53,7 @@ private:
     int numVizinhos;  // Número de vizinhos
     int* vizinhos;  // Vetor de IDs de vizinhos
     PilhaEncadeada* pilhasPacotes;  // Vetor de pilhas de id's de pacotes
+    friend class Escalonador;
 };
 
 #endif

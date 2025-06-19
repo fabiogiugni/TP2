@@ -17,18 +17,21 @@ class Pacote {
         int getOrigem();
         int getId();
         int getDestino();
+        int getChavePacote();
         void setRota(ListaEncadeada* novaRota);
         void avancarRota();  // Avança para o próximo armazém
+        int getArmazemAtual() const;
         int getProximoArmazem() const;  // Acessa o próximo armazém (sem remover)
         bool chegouAoDestino() const;       // Verifica se a rota acabou
         void imprimirPacote() const;  // Imprime as informações do pacote
 
     private:
-        int tempoChegada;
-        int id;
+        int chavePacote;
+        int tempo; //6 digitos
+        int id; //6digitos
         int armazemOrigem;
         int armazemDestino;
-        int estadoPacote;
+        int tipoTransporte; // 1- armazenamento 2- transporte
         /* 
         1- não postado 
         2- chegada escalonada(já anotada) a um armazem 
@@ -40,7 +43,7 @@ class Pacote {
         ListaEncadeada* rota;
     friend class Armazem;
     friend class Grafo;
-    friend class Transporte;
+    friend class Escalonador;
 };
 
 #endif

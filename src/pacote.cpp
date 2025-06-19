@@ -1,8 +1,8 @@
 #include "pacote.hpp"
 
-Pacote::Pacote() : tempoChegada(-1), id(-1), armazemOrigem(-1), armazemDestino(-1) {}
+Pacote::Pacote() : chavePacote(-1), tempo(-1), id(-1), armazemOrigem(-1), armazemDestino(-1), tipoTransporte(-1) {}
 
-Pacote::Pacote(int tempo, int ident, int org, int dest) : tempoChegada(tempo), id(ident), armazemOrigem(org), armazemDestino(dest) ,estadoPacote(1) {}
+Pacote::Pacote(int tempo, int ident, int org, int dest) : tempo(tempo), id(ident), armazemOrigem(org), armazemDestino(dest) ,tipoTransporte(1) {}
 
 Pacote::~Pacote() {
     // Não precisa de ação manual aqui, pois a ListaEncadeada cuida da destruição
@@ -20,9 +20,6 @@ void Pacote::setRota(ListaEncadeada* novaRota) {
     // Substitui a rota com a nova lista copiada
     rota = rotaCopia;
 }
-
-
-
 
 int Pacote::getId(){
     return id;
@@ -42,9 +39,16 @@ void Pacote::avancarRota() {
     }
 }
 
-int Pacote::getProximoArmazem() const {
+int Pacote::getArmazemAtual() const {
     if (rota->tamanho > 0) {
         return rota->primeiro->item;  // Supondo que você tenha esse método na lista
+    }
+    throw std::runtime_error("Pacote sem próximo armazém: rota vazia.");
+}
+
+int Pacote::getProximoArmazem() const {
+    if (rota->tamanho > 0) {
+        return rota->primeiro->prox->item;  // Supondo que você tenha esse método na lista
     }
     throw std::runtime_error("Pacote sem próximo armazém: rota vazia.");
 }
@@ -58,10 +62,10 @@ void Pacote::imprimirPacote() const {
     std::cout << "Pacote ID: " << id << std::endl;
     std::cout << "Origem: Armazém " << armazemOrigem << std::endl;
     std::cout << "Destino: Armazém " << armazemDestino << std::endl;
-    std::cout << "Tempo de Chegada: " << tempoChegada << std::endl;
+    std::cout << "Tempo de Chegada: " << tempo << std::endl;
     
     std::string estadoStr;
-    switch (estadoPacote) {
+    switch (tipoTransporte) {
         case 1: estadoStr = "Não postado"; break;
         case 2: estadoStr = "Chegada escalonada a um armazém"; break;
         case 3: estadoStr = "Chegou a um armazém, mas não foi adicionado"; break;

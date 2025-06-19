@@ -1,5 +1,10 @@
 #include "heap.hpp"
 
+Heap::Heap(){
+    tamanho = 0;
+    data = new int[0];
+}
+
 Heap::Heap(int maxSize){
     tamanho = 0;
     data = new int[maxSize];

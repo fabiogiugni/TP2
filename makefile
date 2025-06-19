@@ -11,6 +11,8 @@ SOURCE_FILES = $(SRC_DIR)main.cpp \
                $(SRC_DIR)graph.cpp \
                $(SRC_DIR)pacote.cpp \
                $(SRC_DIR)armazem.cpp \
+               $(SRC_DIR)heap.cpp \
+               $(SRC_DIR)escalonador.cpp \
 
 all: 
 	$(CC) $(CFLAGS) -o $(EXECUTABLE) $(SOURCE_FILES)

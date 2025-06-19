@@ -1,8 +1,8 @@
-//#include "pacote.hpp"
-//#include "armazem.hpp"
+#include "pacote.hpp"
 #include "pilhaEncadeada.hpp"
 #include "graph.hpp"
 #include "armazem.hpp"
+#include "escalonador.hpp"
 
 #include <fstream>
 
@@ -86,6 +86,19 @@ int main(int argc,char *argv[]){
     for(int i = 0; i < numeroPacotes; i++){
         vetPac[i].imprimirPacote();
     }
+    for(int i = 0; i < numeroPacotes; i++){
+        vetArm[vetPac[i].getOrigem()].inserePacote(vetPac[i]); //postar pacotes em suas rotas
+    }
+    vetArm[vetPac[1].getArmazemAtual()].removerPacote(vetPac[1].getProximoArmazem(),1);
+    std::cout<<vetPac[1].getProximoArmazem()<<std::endl;
+    vetPac[1].avancarRota();
+    for(int i = 0; i < numeroArmazens; i++){
+        vetArm[i].visualizarPacotes(2);
+    }
+    std::cout<<"criando escalonador"<<std::endl;
+    Escalonador escal(capacidadeTransporte, latenciaTransporte, intervaloTransportes, vetPac, numeroPacotes, vetArm, numeroArmazens);
+    
+
 
     std::cout<<"fim"<<std::endl;
     return 0;
