@@ -79,6 +79,7 @@ int main(int argc,char *argv[]){
         vetPac[i] = p;
     }
 
+    vetPac[1].tipoTransporte;
     for(int i = 0; i < numeroPacotes; i++){
         vetArm[vetPac[i].getOrigem()].inserePacote(vetPac[i]); //postar pacotes em suas rotas
         vetPac[i].avancarRota();
@@ -107,12 +108,11 @@ int main(int argc,char *argv[]){
 
     escal.vetArm[2].visualizarPacotes(0);
     escal.vetArm[2].visualizarPacotes(1);
-
     escal.vetArm[2].visualizarPacotes(3);
 
     escal.vetArm[3].visualizarPacotes(2);
-
-    
+    escal.processaEventos();
+    vetArm[2].imprimeVizinhos();
     std::cout<<escal.vetPac[1].getArmazemAtual()<<std::endl;
 
     std::cout<<"fim"<<std::endl;

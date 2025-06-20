@@ -34,6 +34,7 @@ public:
     void removerPacote(int vizinhoId, int pacoteId);
 
     // Verifica se o armazém tem pacotes para um vizinho específico
+    bool verificaSeTodasSecoesEstaoVazias();
     bool temPacotes(int vizinhoId);
 
     // Retorna o número de pacotes para um vizinho específico

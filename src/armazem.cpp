@@ -118,4 +118,21 @@ void Armazem::imprimeVizinhos() const {
         std::cout << vizinhos[i] << " ";  // Imprime o ID do vizinho
     }
     std::cout << std::endl;  // Quebra a linha após listar todos os vizinhos
+
+}
+
+bool Armazem::verificaSeTodasSecoesEstaoVazias() {
+    // Percorre todos os vizinhos
+    for (int i = 0; i < numVizinhos; i++) {
+        // Obtém a pilha de pacotes para o vizinho atual
+        PilhaEncadeada& secao = getSecaoDestino(vizinhos[i]);
+        
+        // Se a pilha de pacotes para este vizinho não estiver vazia, retorna false
+        if (!secao.Vazio()) {
+            return false;
+        }
+    }
+    
+    // Se todas as pilhas de pacotes para os vizinhos estiverem vazias, retorna true
+    return true;
 }

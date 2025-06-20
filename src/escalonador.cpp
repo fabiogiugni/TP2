@@ -37,9 +37,35 @@ Escalonador::~Escalonador() {
     delete[] vetArm;
 }
 
+bool Escalonador::secoesVazias(){
+    for(int i = 0; i < numArm; i++){
+        if(!vetArm[i].verificaSeTodasSecoesEstaoVazias()){
+            return false;
+        }
+    }
+    return true;
+}
+
+void Escalonador::escalonaChegada(Pacote p){
+    heapEventos.Inserir(p.tempo*10000000 + p.id*10 + p.tipoTransporte);
+}
+
+void Escalonador::escalonaTransporte(){
+    
+}
+
 void Escalonador::processaEventos(){
     int tempo_global = 0;
-    for(int i=0;i<numArm;i++){}
+    for(int i = 0; i < numArm; i++){
+        //  vetArm[i].realizaTransporte();  
+    }
+    for(int i=0; i < numPac; i++){
+        escalonaChegada(vetPac[i]);
+        
+    }
+    while(!heapEventos.Vazio() || !secoesVazias()){
+
+    }
 }
 
 Pacote* Escalonador::transformaChave(int chave){
