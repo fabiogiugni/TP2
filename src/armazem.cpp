@@ -1,5 +1,6 @@
 #include "armazem.hpp"
 #include <iostream>
+#include <stdexcept>
 
 Armazem::Armazem() : id(0), numVizinhos(0), vizinhos(nullptr), pilhasPacotes(nullptr),pilhasTransporte(nullptr) {}
 
@@ -23,25 +24,24 @@ void Armazem::setId(int id) {
 PilhaEncadeada& Armazem::getSecaoDestino(int vizinhoId) {
     for (int i = 0; i < numVizinhos; i++) {
         if (vizinhos[i] == vizinhoId) {
-            return pilhasPacotes[i];  // Retorna a pilha de pacotes associada ao vizinho
+            return pilhasPacotes[i];
         }
     }
-    // Se não encontrar o vizinho, criamos uma nova pilha para ele
-    return pilhasPacotes[0];  // Retorna a primeira pilha se o vizinho não for encontrado
+    throw std::invalid_argument("Vizinho não encontrado em getSecaoDestino.");
 }
 
 PilhaEncadeada& Armazem::getSecaoDestinoTransporte(int vizinhoId) {
     for (int i = 0; i < numVizinhos; i++) {
         if (vizinhos[i] == vizinhoId) {
-            return pilhasTransporte[i];  // Retorna a pilha de transporte associada ao vizinho
+            return pilhasTransporte[i];
         }
     }
-    // Se não encontrar o vizinho, criamos uma nova pilha para ele
-    return pilhasTransporte[0];  // Retorna a primeira pilha se o vizinho não for encontrado
+    throw std::invalid_argument("Vizinho não encontrado em getSecaoDestinoTransporte.");
 }
 
 void Armazem::inserePacote(Pacote p) {
-    PilhaEncadeada& secao = getSecaoDestino(p.getDestino());  // Obtém a pilha para o destino do pacote
+    PilhaEncadeada& secao = getSecaoDestino(p.getProximoArmazem());  // Obtém a pilha para o destino do pacote
+    std::cout << "Inserindo pacote " << p.getId() << " no armazém " << getId() << std::endl;
     secao.Empilha(p.getId());  // Empilha o pacote na seção correspondente
 }
 
@@ -73,6 +73,7 @@ void Armazem::esvaziarSecao(int vizinhoId) {
 
 void Armazem::visualizarPacotes(int vizinhoId) {
     PilhaEncadeada& secao = getSecaoDestino(vizinhoId);  // Obtém a pilha para o vizinho
+    std::cout<<"imprimindo pilha para o vizinho:"<<vizinhoId<<std::endl;
     secao.imprime();  // Exibe os pacotes da pilha
 }
 
@@ -105,7 +106,6 @@ void Armazem::adicionarVizinho(int idVizinho) {
     pilhasTransporte = novasPilhasTransporte;  // Atualiza o ponteiro de pilhas de transporte
     numVizinhos++;  // Aumenta o número de vizinhos
 }
-
 
 void Armazem::imprimeVizinhos() const {
     std::cout << "Vizinhos do Armazem " << id << ": ";

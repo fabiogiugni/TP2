@@ -5,9 +5,9 @@
 #include <iostream>
 
 // Construtor do escalonador
-Escalonador::Escalonador(int capacidadeTransporte, int latenciaTransporte, int intervaloTransporte, Pacote* pacotes, int numPacotes, Armazem* armazens, int numArmazens) 
+Escalonador::Escalonador(int capacidadeTransporte, int latenciaTransporte, int intervaloTransporte, int custoRemocao, Pacote* pacotes, int numPacotes, Armazem* armazens, int numArmazens) 
     : capacidadeTransporte(capacidadeTransporte), latenciaTransporte(latenciaTransporte), intervaloTransporte(intervaloTransporte),
-    condicaoDeTermino(false), numPac(numPacotes), numArm(numArmazens){
+    custoRemocao(custoRemocao), condicaoDeTermino(false), numPac(numPacotes), numArm(numArmazens){
 
     // Alocando e copiando os pacotes
     vetPac = new Pacote[numPacotes];
@@ -37,13 +37,22 @@ Escalonador::~Escalonador() {
     delete[] vetArm;
 }
 
+void Escalonador::processaEventos(){
+    int tempo_global = 0;
+    for(int i=0;i<numArm;i++){}
+}
+
 Pacote* Escalonador::transformaChave(int chave){
-    Pacote* p;
+    Pacote* p = nullptr;
     if(chave % 2 == 1){
-        int id = ((chave % 10000000) - 1) / 10;
-        int tempo_agora = (chave - id - 1)/10000000;
+        int id = (chave/10) % 1000000;
+        int tempo_agora = chave/10000000;
+        // Até tempo_agora não foi usado
         *p = vetPac[id];
     }else{
-        
+        int dest = ((chave % 10000) - 2) / 10;
+        int orign = ((chave % 10000000) - dest - 2) / 1000;
+        int tempo_agora = (chave/10000000);
+        //de alguma forma acessar o pacote com essas características
     }
 }

@@ -51,10 +51,6 @@ int main(int argc,char *argv[]){
         }
     }
 
-    for(int i = 0; i < numeroArmazens; i++){
-        vetArm[i].imprimeVizinhos();
-    }
-
     int numeroPacotes = 0;
     arquivo>>numeroPacotes;
 
@@ -66,7 +62,8 @@ int main(int argc,char *argv[]){
         std::string pac;
         arquivo >> pac;  // Lê e ignora a palavra "pac"
         int id = i;
-        //arquivo >> id; Aparentemente o id é o i.
+        arquivo >> id; //Aparentemente o id é o i.
+        id = i;
         std::string org;
         arquivo >> org;  // Lê e ignora a palavra "org"
         int orgn = 0;
@@ -78,27 +75,45 @@ int main(int argc,char *argv[]){
 
         Pacote p(tempo, id, orgn, dest);  // Criando o pacote
         ListaEncadeada rota = mapaArm.BFS(orgn,dest); //Calcula a rota usando BFS
-        rota.imprime();
         p.setRota(&rota);
         vetPac[i] = p;
     }
 
     for(int i = 0; i < numeroPacotes; i++){
-        vetPac[i].imprimirPacote();
-    }
-    for(int i = 0; i < numeroPacotes; i++){
         vetArm[vetPac[i].getOrigem()].inserePacote(vetPac[i]); //postar pacotes em suas rotas
+        vetPac[i].avancarRota();
     }
-    vetArm[vetPac[1].getArmazemAtual()].removerPacote(vetPac[1].getProximoArmazem(),1);
-    std::cout<<vetPac[1].getProximoArmazem()<<std::endl;
-    vetPac[1].avancarRota();
-    for(int i = 0; i < numeroArmazens; i++){
-        vetArm[i].visualizarPacotes(2);
-    }
-    std::cout<<"criando escalonador"<<std::endl;
-    Escalonador escal(capacidadeTransporte, latenciaTransporte, intervaloTransportes, vetPac, numeroPacotes, vetArm, numeroArmazens);
-    
 
+    vetArm[0].imprimeVizinhos();
+    Pacote pac(6,9,0,2);
+    ListaEncadeada rota;
+    rota.insereInicio(0);
+    rota.insereFinal(2);
+    pac.setRota(&rota);
+    vetArm[0].inserePacote(pac);
+    std::cout<<"imprimindo pacotes 0 - 1"<<std::endl;
+    vetArm[0].visualizarPacotes(2);
+    //erro de seg fault na linha abaixo
+    //vetArm[vetPac[1].getArmazemAtual()].removerPacote(vetPac[1].getProximoArmazem(),1);
+    //std::cout<<vetPac[1].getProximoArmazem()<<std::endl;
+    //vetPac[1].avancarRota();
+
+    
+    Escalonador escal(capacidadeTransporte, latenciaTransporte, intervaloTransportes, custoRemocao, vetPac, numeroPacotes, vetArm, numeroArmazens);
+    std::cout<<"construiu escalonador"<<std::endl;
+    escal.vetArm[0].visualizarPacotes(2);
+
+    escal.vetArm[1].visualizarPacotes(2);
+
+    escal.vetArm[2].visualizarPacotes(0);
+    escal.vetArm[2].visualizarPacotes(1);
+
+    escal.vetArm[2].visualizarPacotes(3);
+
+    escal.vetArm[3].visualizarPacotes(2);
+
+    
+    std::cout<<escal.vetPac[1].getArmazemAtual()<<std::endl;
 
     std::cout<<"fim"<<std::endl;
     return 0;

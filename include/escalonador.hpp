@@ -8,16 +8,18 @@
 
 class Escalonador {
 public:
-    Escalonador(int capacidadeTransporte, int latenciaTransporte, int intervaloTransporte, Pacote* pacotes, int numPacotes, Armazem* armazens, int numArmazens) ;
+    Escalonador(int capacidadeTransporte, int latenciaTransporte, int intervaloTransporte, int custoRemocao, Pacote* pacotes, int numPacotes, Armazem* armazens, int numArmazens) ;
     ~Escalonador();
-    void processaEvento();
+    void processaEventos();
+    void processaEvento(int chave);
     Pacote* transformaChave(int chaveHeap);
     //fazer a funcao da chave do heap, fazer todos os transportes e depois a logica do escalonador em si.
-private:
+
     Heap heapEventos;  // Min-heap que armazena eventos
     int capacidadeTransporte;
     int latenciaTransporte;
     int intervaloTransporte;
+    int custoRemocao;
     bool condicaoDeTermino; // Condição de término do sistema
     int numPac;
     Pacote* vetPac;
