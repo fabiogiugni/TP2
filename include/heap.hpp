@@ -2,37 +2,29 @@
 #define HEAP_HPP
 #include <iostream>
 
-/*  Você pode inserir os includes necessários para que sua classe funcione.
- * Alteracoes no arquivo so podem ser feitas quando explicitadas
- */
+class Heap {
 
-class Heap{
+public:
+    Heap();
+    Heap(int maxsize);
+    ~Heap();
 
-    public:
-        Heap();
-        Heap(int maxsize);
-        ~Heap();
+    void Inserir(long long int x);  // Alterado para long long int
+    long long int Remover();        // Alterado para long long int
 
-        void Inserir(int x);
-        int Remover();
+    bool Vazio();
 
-        //Retorna true caso o heap esteja vazio, false caso contrário.
-        bool Vazio();
+private:
+    int GetAncestral(int posicao);
+    int GetSucessorEsq(int posicao);
+    int GetSucessorDir(int posicao);
 
-    private:
-        int GetAncestral(int posicao);
-        int GetSucessorEsq(int posicao);
-        int GetSucessorDir(int posicao);
+    int tamanho;
+    long long int* data;  // Alterado para long long int
+    int capacidade;        // Declaração da variável capacidade
 
-        int tamanho;
-        int* data;
-
-        /* Funções necessárias para implementar o Heapify recursivo
-         * Você pode apagar elas caso decida implementar o Heapify iterativo
-         */
-        void HeapifyPorBaixo(int posicao);
-        void HeapifyPorCima(int posicao);
+    void HeapifyPorBaixo(int posicao);
+    void HeapifyPorCima(int posicao);
 };
-
 
 #endif

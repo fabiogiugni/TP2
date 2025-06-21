@@ -15,7 +15,7 @@ public:
     Pacote* transformaChave(int chaveHeap);
     bool secoesVazias();
     void escalonaTransporte();
-    void escalonaChegada(Pacote p);
+    void escalonaChegadaPacotes();
     //fazer a funcao da chave do heap, fazer todos os transportes e depois a logica do escalonador em si.
 
     Heap heapEventos;  // Min-heap que armazena eventos
@@ -27,6 +27,7 @@ public:
     int numPac;
     Pacote* vetPac;
     int numArm;
+    int qtdeTransp;
     Armazem* vetArm;
 };
 

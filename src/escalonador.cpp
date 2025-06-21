@@ -7,7 +7,8 @@
 // Construtor do escalonador
 Escalonador::Escalonador(int capacidadeTransporte, int latenciaTransporte, int intervaloTransporte, int custoRemocao, Pacote* pacotes, int numPacotes, Armazem* armazens, int numArmazens) 
     : capacidadeTransporte(capacidadeTransporte), latenciaTransporte(latenciaTransporte), intervaloTransporte(intervaloTransporte),
-    custoRemocao(custoRemocao), condicaoDeTermino(false), numPac(numPacotes), numArm(numArmazens){
+    custoRemocao(custoRemocao), condicaoDeTermino(false), numPac(numPacotes), numArm(numArmazens),
+    qtdeTransp(0){
 
     // Alocando e copiando os pacotes
     vetPac = new Pacote[numPacotes];
@@ -46,25 +47,39 @@ bool Escalonador::secoesVazias(){
     return true;
 }
 
-void Escalonador::escalonaChegada(Pacote p){
-    heapEventos.Inserir(p.tempo*10000000 + p.id*10 + p.tipoTransporte);
+void Escalonador::escalonaChegadaPacotes(){
+    long long int chave = 0;
+    for(int i = 0; i < numPac; i++){
+        chave = vetPac[i].tempo*10000000 + vetPac[i].id*10 + vetPac[i].tipoTransporte;
+        heapEventos.Inserir(chave);
+    }
 }
 
 void Escalonador::escalonaTransporte(){
-    
+    long long int chave = 0;
+    for(int i = 0; i < numArm; i++){
+        for(int j = 0; j < vetArm[i].numVizinhos; j++){
+            std::cout<<i<<std::endl;
+            std::cout<<vetArm[i].vizinhos[j]<<std::endl;
+            if(!vetArm[i].getSecaoDestinoTransporte(vetArm[i].vizinhos[j]).Vazio()){
+                std::cout<<"chegou"<<std::endl;
+                chave = qtdeTransp*10000000 + vetArm[i].id*10000 + vetArm[i].vizinhos[j];
+                heapEventos.Inserir(chave);
+            }
+        }
+    }
+    qtdeTransp++;
 }
 
 void Escalonador::processaEventos(){
     int tempo_global = 0;
-    for(int i = 0; i < numArm; i++){
-        //  vetArm[i].realizaTransporte();  
-    }
-    for(int i=0; i < numPac; i++){
-        escalonaChegada(vetPac[i]);
-        
+    escalonaTransporte();
+    escalonaChegadaPacotes();
+    while(!heapEventos.Vazio()){
+        std::cout<<heapEventos.Remover()<<std::endl;
     }
     while(!heapEventos.Vazio() || !secoesVazias()){
-
+        long long int chave = heapEventos.Remover();
     }
 }
 

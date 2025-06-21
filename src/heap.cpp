@@ -1,83 +1,114 @@
 #include "heap.hpp"
+#include <stdexcept>
 
-Heap::Heap(){
+// Construtor sem parâmetros - inicializa com tamanho 0 e vetor de dados de tamanho 0
+Heap::Heap() {
     tamanho = 0;
-    data = new int[0];
+    capacidade = 10;  // Define uma capacidade inicial padrão (pode ser alterado)
+    data = new long long int[capacidade];  // Inicializa o vetor de dados com a capacidade padrão
 }
 
-Heap::Heap(int maxSize){
+// Construtor com tamanho máximo especificado
+Heap::Heap(int maxSize) {
     tamanho = 0;
-    data = new int[maxSize];
+    capacidade = maxSize;  // Define a capacidade máxima do heap
+    data = new long long int[capacidade];  // Aloca memória para o vetor de dados
 }
 
-Heap::~Heap(){
-    delete[] data;
+// Destruidor - libera a memória alocada
+Heap::~Heap() {
+    delete[] data;  // Libera a memória do vetor de dados
 }
 
-bool Heap::Vazio(){
-    return (tamanho == 0);
+// Verifica se o heap está vazio
+bool Heap::Vazio() {
+    return (tamanho == 0);  // Retorna verdadeiro se o tamanho for 0
 }
 
-int Heap::GetAncestral(int posicao){
-    return (posicao - 1)/2;
-}
-int Heap::GetSucessorEsq(int posicao){
-    return (2*posicao + 1);
-}
-int Heap::GetSucessorDir(int posicao){
-    return (2*posicao + 2);
+// Retorna o índice do ancestral (pai) de um elemento
+int Heap::GetAncestral(int posicao) {
+    return (posicao - 1) / 2;  // Índice do pai no heap
 }
 
-void Heap::Inserir(int x){
-    data[tamanho] = x;
-    ++tamanho;
-    HeapifyPorCima(tamanho-1);
+// Retorna o índice do sucessor à esquerda de um elemento
+int Heap::GetSucessorEsq(int posicao) {
+    return (2 * posicao + 1);  // Índice do filho à esquerda no heap
 }
 
-int Heap::Remover(){
-    if(Vazio()){
-        return 0;
-    }else{
-        int output = data[0];
-        data[0] = data[tamanho-1];
-        --tamanho;
-        HeapifyPorBaixo(0);
-        return output;
+// Retorna o índice do sucessor à direita de um elemento
+int Heap::GetSucessorDir(int posicao) {
+    return (2 * posicao + 2);  // Índice do filho à direita no heap
+}
+
+// Insere um elemento no heap
+void Heap::Inserir(long long int x) {
+    if (tamanho >= capacidade) {  // Verifica se há espaço suficiente
+        // Realoca o vetor de dados se o heap estiver cheio
+        long long int* newData = new long long int[capacidade * 2];  // Dobra a capacidade do vetor
+        for (int i = 0; i < tamanho; i++) {
+            newData[i] = data[i];  // Copia os dados antigos para o novo vetor
+        }
+        delete[] data;  // Libera a memória do vetor antigo
+        data = newData;  // Atualiza o ponteiro para o novo vetor
+        capacidade *= 2;  // Dobra a capacidade
     }
+
+    data[tamanho] = x;  // Insere o novo elemento no final
+    ++tamanho;  // Aumenta o tamanho
+    HeapifyPorCima(tamanho - 1);  // Ajusta o heap para manter a propriedade do heap
 }
 
-void Heap::HeapifyPorCima(int posicao){
-    while(posicao > 0 && data[posicao] < data[GetAncestral(posicao)]){
-        int temp = data[GetAncestral(posicao)];
+// Remove o elemento de maior prioridade (no topo do heap)
+long long int Heap::Remover() {
+    if (Vazio()) {
+        throw std::out_of_range("Heap está vazio");  // Lança exceção se o heap estiver vazio
+    }
+    
+    long long int output = data[0];  // Armazena o topo (maior elemento)
+    data[0] = data[tamanho - 1];  // Substitui o topo pelo último elemento
+    --tamanho;  // Decrementa o tamanho
+    HeapifyPorBaixo(0);  // Ajusta o heap para manter a propriedade do heap
+    return output;  // Retorna o valor removido
+}
+
+// Reorganiza o heap para manter a propriedade do heap, subindo um elemento
+void Heap::HeapifyPorCima(int posicao) {
+    while (posicao > 0 && data[posicao] < data[GetAncestral(posicao)]) {
+        // Troca o elemento com o pai se ele for menor
+        long long int temp = data[GetAncestral(posicao)];
         data[GetAncestral(posicao)] = data[posicao];
         data[posicao] = temp;
-        posicao = GetAncestral(posicao);
+        posicao = GetAncestral(posicao);  // Move para o pai
     }
 }
 
+// Reorganiza o heap para manter a propriedade do heap, descendo um elemento
 void Heap::HeapifyPorBaixo(int posicao) {
     // Enquanto houver filhos para comparar
     while (posicao < tamanho) {
-        int esq = GetSucessorEsq(posicao);
-        int dir = GetSucessorDir(posicao);
+        int esq = GetSucessorEsq(posicao);  // Índice do filho esquerdo
+        int dir = GetSucessorDir(posicao);  // Índice do filho direito
 
         int pai = posicao;
-        
-        if (esq < tamanho && data[esq] < data[pai]){
+
+        // Verifica se o filho esquerdo é menor
+        if (esq < tamanho && data[esq] < data[pai]) {
             pai = esq;
         }
-        
-        if (dir < tamanho && data[dir] < data[pai]){
+
+        // Verifica se o filho direito é menor
+        if (dir < tamanho && data[dir] < data[pai]) {
             pai = dir;
         }
-        
-        if (pai != posicao){
-            int temp = data[posicao];
+
+        // Se algum filho for menor que o nó atual, realiza a troca
+        if (pai != posicao) {
+            long long int temp = data[posicao];
             data[posicao] = data[pai];
             data[pai] = temp;
-            posicao = pai; // continue o heapify na posição do maior filho
+            posicao = pai;  // Continue o Heapify na posição do filho trocado
         } else {
-            break; // se o nó já está na posição correta, interrompe o loop
+            break;  // Se o nó já está na posição correta, interrompe o loop
         }
     }
 }
