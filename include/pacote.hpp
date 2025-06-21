@@ -17,7 +17,7 @@ class Pacote {
         int getOrigem();
         int getId();
         int getDestino();
-        int getChavePacote();
+        int getTempo();
         void setRota(ListaEncadeada* novaRota);
         void avancarRota();  // Avança para o próximo armazém
         int getArmazemAtual() const;    //Acessa o armazém atual
@@ -31,7 +31,6 @@ class Pacote {
         int id; //6digitos
         int armazemOrigem;
         int armazemDestino;
-        int tipoTransporte; // 1- armazenamento 2- transporte
         ListaEncadeada* rota;
     friend class Armazem;
     friend class Grafo;

@@ -11,11 +11,13 @@ public:
     Escalonador(int capacidadeTransporte, int latenciaTransporte, int intervaloTransporte, int custoRemocao, Pacote* pacotes, int numPacotes, Armazem* armazens, int numArmazens) ;
     ~Escalonador();
     void processaEventos();
-    void processaEvento(int chave);
     Pacote* transformaChave(int chaveHeap);
     bool secoesVazias();
     void escalonaTransporte();
     void escalonaChegadaPacotes();
+
+    void logEvento(int tempo, int idPacote, const std::string& acao, int origem, int destino);
+
     //fazer a funcao da chave do heap, fazer todos os transportes e depois a logica do escalonador em si.
 
     Heap heapEventos;  // Min-heap que armazena eventos
@@ -27,8 +29,8 @@ public:
     int numPac;
     Pacote* vetPac;
     int numArm;
-    int qtdeTransp;
     Armazem* vetArm;
+    int qtdeTransp;
 };
 
 #endif

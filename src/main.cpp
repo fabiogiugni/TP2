@@ -79,26 +79,20 @@ int main(int argc,char *argv[]){
         vetPac[i] = p;
     }
 
-    vetPac[1].tipoTransporte;
+    int tempoMin = 999999;//achando o tempoMinimo de postagem para ditar os transportes 
     for(int i = 0; i < numeroPacotes; i++){
-        vetArm[vetPac[i].getOrigem()].inserePacote(vetPac[i]); //postar pacotes em suas rotas
+        if(vetPac[i].getTempo() < tempoMin){
+            tempoMin = vetPac[i].getTempo();
+        }
+    }
+
+    for(int i = 0; i < numeroPacotes; i++){
+        vetArm[vetPac[i].getOrigem()].inserePacote(vetPac[i]); //postar pacotes em suas rotas (isso tem q passar para o escalonador)
         vetPac[i].avancarRota();
     }
 
-    vetArm[0].imprimeVizinhos();
-    Pacote pac(6,9,0,2);
-    ListaEncadeada rota;
-    rota.insereInicio(0);
-    rota.insereFinal(2);
-    pac.setRota(&rota);
-    vetArm[0].inserePacote(pac);
     std::cout<<"imprimindo pacotes 0 - 1"<<std::endl;
     vetArm[0].visualizarPacotes(2);
-    //erro de seg fault na linha abaixo
-    //vetArm[vetPac[1].getArmazemAtual()].removerPacote(vetPac[1].getProximoArmazem(),1);
-    //std::cout<<vetPac[1].getProximoArmazem()<<std::endl;
-    //vetPac[1].avancarRota();
-
     
     Escalonador escal(capacidadeTransporte, latenciaTransporte, intervaloTransportes, custoRemocao, vetPac, numeroPacotes, vetArm, numeroArmazens);
     std::cout<<"construiu escalonador"<<std::endl;
@@ -112,7 +106,6 @@ int main(int argc,char *argv[]){
 
     escal.vetArm[3].visualizarPacotes(2);
     escal.processaEventos();
-    vetArm[2].imprimeVizinhos();
     std::cout<<escal.vetPac[1].getArmazemAtual()<<std::endl;
 
     std::cout<<"fim"<<std::endl;
