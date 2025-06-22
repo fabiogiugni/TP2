@@ -1,21 +1,24 @@
 #include "pacote.hpp"
-#include "pilhaEncadeada.hpp"
+#include "tadsAuxiliares.hpp"
 #include "graph.hpp"
 #include "armazem.hpp"
 #include "escalonador.hpp"
-
 #include <fstream>
 
 int main(int argc,char *argv[]){
 
-    int tempo = 0;
-
     // Cria um objeto ifstream para abrir o arquivo
-    std::ifstream arquivo("exemplo.txt");
+    if (argc < 2) {
+        std::cerr << "Uso: " << argv[0] << " <nome_do_arquivo.wkl>" << std::endl;
+        return 1;
+    }
+
+    // Usa o argumento da linha de comando como nome do arquivo
+    std::ifstream arquivo(argv[1]);
 
     // Verifica se o arquivo foi aberto corretamente
     if (!arquivo.is_open()) {
-        std::cerr << "Erro ao abrir o arquivo!" << std::endl;
+        std::cerr << "Erro ao abrir o arquivo!"<< argv[1] << std::endl;
         return 1;  // Sai do programa se não conseguir abrir o arquivo
     }
 
@@ -79,36 +82,15 @@ int main(int argc,char *argv[]){
         vetPac[i] = p;
     }
 
-    int tempoMin = 999999;//achando o tempoMinimo de postagem para ditar os transportes 
+    int tempoMin = 999999;//achando o tempoMinimo da primeira postagem para ditar os transportes 
     for(int i = 0; i < numeroPacotes; i++){
         if(vetPac[i].getTempoPostagem() < tempoMin){
             tempoMin = vetPac[i].getTempoPostagem();
         }
-    }
-
-    /*for(int i = 0; i < numeroPacotes; i++){
-        vetArm[vetPac[i].getOrigem()].inserePacote(vetPac[i]); //postar pacotes em suas rotas (isso tem q passar para o escalonador)
-        vetPac[i].avancarRota();
-    }
-
-    std::cout<<"imprimindo pacotes 0 - 1"<<std::endl;
-    vetArm[0].visualizarPacotes(2);*/
-    
+    }   
     Escalonador escal(capacidadeTransporte, latenciaTransporte, intervaloTransportes, custoRemocao, vetPac, numeroPacotes, vetArm, numeroArmazens);
-    std::cout<<"construiu escalonador"<<std::endl;
     escal.processaEventos(tempoMin);
-    /*escal.vetArm[0].visualizarPacotes(2);
-
-    escal.vetArm[1].visualizarPacotes(2);
-
-    escal.vetArm[2].visualizarPacotes(0);
-    escal.vetArm[2].visualizarPacotes(1);
-    escal.vetArm[2].visualizarPacotes(3);
-
-    escal.vetArm[3].visualizarPacotes(2);
-    escal.processaEventos(tempoMin);
-    std::cout<<escal.vetPac[1].getArmazemAtual()<<std::endl;
-
-    std::cout<<"fim"<<std::endl;*/
+    delete[] vetArm;
+    delete[] vetPac;
     return 0;
 }

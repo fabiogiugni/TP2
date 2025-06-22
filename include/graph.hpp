@@ -2,7 +2,7 @@
 #define GRAPH_HPP
 
 #include "listaAdjacencia.hpp"
-#include "fila.hpp"
+#include "tadsAuxiliares.hpp"
 
 /*  
     INFORMAÇÕES DAS LIGAÇÕES ENTRE OS ARMAZENS E CALCULA ROTA DO PACOTE POR BFS

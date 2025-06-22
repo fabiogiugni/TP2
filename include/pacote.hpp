@@ -1,7 +1,7 @@
 #ifndef PACOTE_HPP
 #define PACOTE_HPP
 
-#include "listaEncadeada.hpp"
+#include "tadsAuxiliares.hpp"
 #include "armazem.hpp"
 
 
@@ -12,8 +12,10 @@
 class Pacote {
     public:
         Pacote();
+        Pacote(const Pacote& outro);
         Pacote(int tempo, int ident, int org, int dest);
         ~Pacote();
+        Pacote& operator=(const Pacote& outro);
         int getOrigem();
         int getId();
         int getDestino();

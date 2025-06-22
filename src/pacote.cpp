@@ -1,14 +1,59 @@
 #include "pacote.hpp"
 
-Pacote::Pacote() : postado(false), tempoPostagem(-1), id(-1), armazemOrigem(-1), armazemDestino(-1) {}
+Pacote::Pacote() : postado(false), tempoPostagem(-1), id(-1), armazemOrigem(-1), armazemDestino(-1), rota(nullptr) {}
 
-Pacote::Pacote(int tempo, int ident, int org, int dest) : postado(false), tempoPostagem(tempo), id(ident), armazemOrigem(org), armazemDestino(dest) {}
+Pacote::Pacote(const Pacote& outro) {
+    postado = outro.postado;
+    tempoPostagem = outro.tempoPostagem;
+    id = outro.id;
+    armazemOrigem = outro.armazemOrigem;
+    armazemDestino = outro.armazemDestino;
+
+    if (outro.rota) {
+        rota = new ListaEncadeada();
+        No* atual = outro.rota->primeiro;
+        while (atual != nullptr) {
+            rota->insereFinal(atual->item);
+            atual = atual->prox;
+        }
+    } else {
+        rota = nullptr;
+    }
+}
+
+Pacote::Pacote(int tempo, int ident, int org, int dest) : postado(false), tempoPostagem(tempo), id(ident), armazemOrigem(org), armazemDestino(dest), rota(nullptr) {}
 
 Pacote::~Pacote() {
     // Não precisa de ação manual aqui, pois a ListaEncadeada cuida da destruição
+    delete rota;
+}
+
+Pacote& Pacote::operator=(const Pacote& outro) {
+    if (this != &outro) {
+        delete rota;
+
+        postado = outro.postado;
+        tempoPostagem = outro.tempoPostagem;
+        id = outro.id;
+        armazemOrigem = outro.armazemOrigem;
+        armazemDestino = outro.armazemDestino;
+
+        if (outro.rota) {
+            rota = new ListaEncadeada();
+            No* atual = outro.rota->primeiro;
+            while (atual != nullptr) {
+                rota->insereFinal(atual->item);
+                atual = atual->prox;
+            }
+        } else {
+            rota = nullptr;
+        }
+    }
+    return *this;
 }
 
 void Pacote::setRota(ListaEncadeada* novaRota) {
+    delete rota;
     // Cria uma nova lista para garantir que seja uma cópia profunda
     ListaEncadeada* rotaCopia = new ListaEncadeada();  // Aloca uma nova lista
     No* atual = novaRota->primeiro;

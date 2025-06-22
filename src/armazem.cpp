@@ -6,6 +6,52 @@ Armazem::Armazem() : id(0), numVizinhos(0), vizinhos(nullptr), pilhasPacotes(nul
 
 Armazem::Armazem(int id) : id(id), numVizinhos(0), vizinhos(nullptr), pilhasPacotes(nullptr),pilhasTransporte(nullptr) {}
 
+// Construtor de cópia
+Armazem::Armazem(const Armazem& outro) {
+    id = outro.id;
+    numVizinhos = outro.numVizinhos;
+
+    // Copiar vizinhos
+    vizinhos = new int[numVizinhos];
+    for (int i = 0; i < numVizinhos; i++) {
+        vizinhos[i] = outro.vizinhos[i];
+    }
+
+    // Copiar pilhas
+    pilhasPacotes = new PilhaEncadeada[numVizinhos];
+    pilhasTransporte = new PilhaEncadeada[numVizinhos];
+    for (int i = 0; i < numVizinhos; i++) {
+        pilhasPacotes[i] = outro.pilhasPacotes[i];
+        pilhasTransporte[i] = outro.pilhasTransporte[i];
+    }
+}
+
+// Operador de atribuição
+Armazem& Armazem::operator=(const Armazem& outro) {
+    if (this != &outro) {
+        delete[] vizinhos;
+        delete[] pilhasPacotes;
+        delete[] pilhasTransporte;
+
+        id = outro.id;
+        numVizinhos = outro.numVizinhos;
+
+        vizinhos = new int[numVizinhos];
+        for (int i = 0; i < numVizinhos; i++) {
+            vizinhos[i] = outro.vizinhos[i];
+        }
+
+        pilhasPacotes = new PilhaEncadeada[numVizinhos];
+        pilhasTransporte = new PilhaEncadeada[numVizinhos];
+        for (int i = 0; i < numVizinhos; i++) {
+            pilhasPacotes[i] = outro.pilhasPacotes[i];
+            pilhasTransporte[i] = outro.pilhasTransporte[i];
+        }
+    }
+    return *this;
+}
+
+
 Armazem::~Armazem() {
     // Desalocação de memória
     delete[] vizinhos;          // Libera o vetor de vizinhos

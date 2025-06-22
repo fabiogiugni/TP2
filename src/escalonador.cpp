@@ -99,7 +99,7 @@ void Escalonador::processaEventos(int tempoMin){
                 PilhaEncadeada aux;
                 int tamanho = vetArm[origem].getSecaoDestino(destino).Tamanho();
                 for(int i = 0; i < tamanho; i++){
-                    tempoGlobal++;
+                    tempoGlobal += custoRemocao;
                     int temp = vetArm[origem].getSecaoDestino(destino).Desempilha();
                     aux.Empilha(temp);
                     logEvento(tempoGlobal,temp,"removido de", origem, destino);

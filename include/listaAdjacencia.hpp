@@ -1,7 +1,7 @@
 #ifndef LISTAADJACENCIA_HPP
 #define LISTAADJACENCIA_HPP
 
-#include "listaEncadeada.hpp"
+#include "tadsAuxiliares.hpp"
 
 
 class ListaAdjacencia{

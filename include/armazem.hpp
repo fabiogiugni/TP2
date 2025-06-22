@@ -1,7 +1,7 @@
 #ifndef ARMAZEM_HPP
 #define ARMAZEM_HPP
 
-#include "pilhaEncadeada.hpp"
+#include "tadsAuxiliares.hpp"
 #include "pacote.hpp"
 
 /*  
@@ -14,7 +14,10 @@ class Armazem {
 public:
     Armazem(); 
     Armazem(int id);
+    Armazem(const Armazem& outro);
     ~Armazem();
+
+    Armazem& operator=(const Armazem& outro);
     
     // Método para obter a pilha associada ao armazem vizinho
     PilhaEncadeada& getSecaoDestino(int destinoId);
