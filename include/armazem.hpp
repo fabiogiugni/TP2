@@ -26,7 +26,6 @@ public:
     
     // Define o ID do armazém
     void setId(int id);
-
     // Retorna o ID do armazém
     int getId();
 

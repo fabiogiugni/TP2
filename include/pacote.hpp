@@ -17,17 +17,16 @@ class Pacote {
         int getOrigem();
         int getId();
         int getDestino();
-        int getTempo();
+        int getTempoPostagem();
         void setRota(ListaEncadeada* novaRota);
         void avancarRota();  // Avança para o próximo armazém
-        int getArmazemAtual() const;    //Acessa o armazém atual
-        int getProximoArmazem() const;  // Acessa o próximo armazém (sem remover)
+        int getArmazemAtual() const;  // Acessa o próximo armazém (sem remover)
+        int getProximoArmazem() const;    //Acessa o próximo armazém destino
         bool chegouAoDestino() const;       // Verifica se a rota acabou
         void imprimirPacote() const;  // Imprime as informações do pacote
 
-    
-        int chavePacote;
-        int tempo; //6 digitos
+        bool postado;
+        int tempoPostagem; //6 digitos
         int id; //6digitos
         int armazemOrigem;
         int armazemDestino;

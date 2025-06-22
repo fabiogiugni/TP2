@@ -125,10 +125,17 @@ bool Armazem::verificaSeTodasSecoesEstaoVazias() {
     // Percorre todos os vizinhos
     for (int i = 0; i < numVizinhos; i++) {
         // Obtém a pilha de pacotes para o vizinho atual
-        PilhaEncadeada& secao = getSecaoDestino(vizinhos[i]);
+        PilhaEncadeada& secao1 = getSecaoDestino(vizinhos[i]);
         
         // Se a pilha de pacotes para este vizinho não estiver vazia, retorna false
-        if (!secao.Vazio()) {
+        if (!secao1.Vazio()) {
+            return false;
+        }
+
+        PilhaEncadeada& secao2 = getSecaoDestinoTransporte(vizinhos[i]);
+        
+        // Se a pilha de pacotes para este vizinho não estiver vazia, retorna false
+        if (!secao2.Vazio()) {
             return false;
         }
     }

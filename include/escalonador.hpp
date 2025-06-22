@@ -10,11 +10,11 @@ class Escalonador {
 public:
     Escalonador(int capacidadeTransporte, int latenciaTransporte, int intervaloTransporte, int custoRemocao, Pacote* pacotes, int numPacotes, Armazem* armazens, int numArmazens) ;
     ~Escalonador();
-    void processaEventos();
-    Pacote* transformaChave(int chaveHeap);
+    void processaEventos(int tempoMin);
     bool secoesVazias();
-    void escalonaTransporte();
-    void escalonaChegadaPacotes();
+    void escalonaTransporte(int tempo, int origem, int destino, int tempoMin);
+    void escalonaChegada(int tempo, int id);
+    int getIdArmazemDestino(int origem, int destino);
 
     void logEvento(int tempo, int idPacote, const std::string& acao, int origem, int destino);
 
@@ -30,7 +30,6 @@ public:
     Pacote* vetPac;
     int numArm;
     Armazem* vetArm;
-    int qtdeTransp;
 };
 
 #endif

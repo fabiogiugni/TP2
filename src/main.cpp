@@ -81,22 +81,23 @@ int main(int argc,char *argv[]){
 
     int tempoMin = 999999;//achando o tempoMinimo de postagem para ditar os transportes 
     for(int i = 0; i < numeroPacotes; i++){
-        if(vetPac[i].getTempo() < tempoMin){
-            tempoMin = vetPac[i].getTempo();
+        if(vetPac[i].getTempoPostagem() < tempoMin){
+            tempoMin = vetPac[i].getTempoPostagem();
         }
     }
 
-    for(int i = 0; i < numeroPacotes; i++){
+    /*for(int i = 0; i < numeroPacotes; i++){
         vetArm[vetPac[i].getOrigem()].inserePacote(vetPac[i]); //postar pacotes em suas rotas (isso tem q passar para o escalonador)
         vetPac[i].avancarRota();
     }
 
     std::cout<<"imprimindo pacotes 0 - 1"<<std::endl;
-    vetArm[0].visualizarPacotes(2);
+    vetArm[0].visualizarPacotes(2);*/
     
     Escalonador escal(capacidadeTransporte, latenciaTransporte, intervaloTransportes, custoRemocao, vetPac, numeroPacotes, vetArm, numeroArmazens);
     std::cout<<"construiu escalonador"<<std::endl;
-    escal.vetArm[0].visualizarPacotes(2);
+    escal.processaEventos(tempoMin);
+    /*escal.vetArm[0].visualizarPacotes(2);
 
     escal.vetArm[1].visualizarPacotes(2);
 
@@ -105,9 +106,9 @@ int main(int argc,char *argv[]){
     escal.vetArm[2].visualizarPacotes(3);
 
     escal.vetArm[3].visualizarPacotes(2);
-    escal.processaEventos();
+    escal.processaEventos(tempoMin);
     std::cout<<escal.vetPac[1].getArmazemAtual()<<std::endl;
 
-    std::cout<<"fim"<<std::endl;
+    std::cout<<"fim"<<std::endl;*/
     return 0;
 }

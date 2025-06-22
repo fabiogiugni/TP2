@@ -5,14 +5,14 @@
 Heap::Heap() {
     tamanho = 0;
     capacidade = 10;  // Define uma capacidade inicial padrão (pode ser alterado)
-    data = new long long int[capacidade];  // Inicializa o vetor de dados com a capacidade padrão
+    data = new __uint128_t [capacidade];  // Inicializa o vetor de dados com a capacidade padrão
 }
 
 // Construtor com tamanho máximo especificado
 Heap::Heap(int maxSize) {
     tamanho = 0;
     capacidade = maxSize;  // Define a capacidade máxima do heap
-    data = new long long int[capacidade];  // Aloca memória para o vetor de dados
+    data = new __uint128_t [capacidade];  // Aloca memória para o vetor de dados
 }
 
 // Destruidor - libera a memória alocada
@@ -41,10 +41,13 @@ int Heap::GetSucessorDir(int posicao) {
 }
 
 // Insere um elemento no heap
-void Heap::Inserir(long long int x) {
+void Heap::Inserir(__uint128_t  x) {
+    if(x < 0){
+        throw std::invalid_argument("Valor inválido no heap.");
+    }
     if (tamanho >= capacidade) {  // Verifica se há espaço suficiente
         // Realoca o vetor de dados se o heap estiver cheio
-        long long int* newData = new long long int[capacidade * 2];  // Dobra a capacidade do vetor
+        __uint128_t * newData = new __uint128_t [capacidade * 2];  // Dobra a capacidade do vetor
         for (int i = 0; i < tamanho; i++) {
             newData[i] = data[i];  // Copia os dados antigos para o novo vetor
         }
@@ -59,12 +62,12 @@ void Heap::Inserir(long long int x) {
 }
 
 // Remove o elemento de maior prioridade (no topo do heap)
-long long int Heap::Remover() {
+__uint128_t  Heap::Remover() {
     if (Vazio()) {
         throw std::out_of_range("Heap está vazio");  // Lança exceção se o heap estiver vazio
     }
     
-    long long int output = data[0];  // Armazena o topo (maior elemento)
+    __uint128_t  output = data[0];  // Armazena o topo (maior elemento)
     data[0] = data[tamanho - 1];  // Substitui o topo pelo último elemento
     --tamanho;  // Decrementa o tamanho
     HeapifyPorBaixo(0);  // Ajusta o heap para manter a propriedade do heap
@@ -75,7 +78,7 @@ long long int Heap::Remover() {
 void Heap::HeapifyPorCima(int posicao) {
     while (posicao > 0 && data[posicao] < data[GetAncestral(posicao)]) {
         // Troca o elemento com o pai se ele for menor
-        long long int temp = data[GetAncestral(posicao)];
+        __uint128_t  temp = data[GetAncestral(posicao)];
         data[GetAncestral(posicao)] = data[posicao];
         data[posicao] = temp;
         posicao = GetAncestral(posicao);  // Move para o pai
@@ -103,7 +106,7 @@ void Heap::HeapifyPorBaixo(int posicao) {
 
         // Se algum filho for menor que o nó atual, realiza a troca
         if (pai != posicao) {
-            long long int temp = data[posicao];
+            __uint128_t  temp = data[posicao];
             data[posicao] = data[pai];
             data[pai] = temp;
             posicao = pai;  // Continue o Heapify na posição do filho trocado

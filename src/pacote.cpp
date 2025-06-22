@@ -1,8 +1,8 @@
 #include "pacote.hpp"
 
-Pacote::Pacote() : chavePacote(-1), tempo(-1), id(-1), armazemOrigem(-1), armazemDestino(-1) {}
+Pacote::Pacote() : postado(false), tempoPostagem(-1), id(-1), armazemOrigem(-1), armazemDestino(-1) {}
 
-Pacote::Pacote(int tempo, int ident, int org, int dest) : tempo(tempo), id(ident), armazemOrigem(org), armazemDestino(dest) {}
+Pacote::Pacote(int tempo, int ident, int org, int dest) : postado(false), tempoPostagem(tempo), id(ident), armazemOrigem(org), armazemDestino(dest) {}
 
 Pacote::~Pacote() {
     // Não precisa de ação manual aqui, pois a ListaEncadeada cuida da destruição
@@ -33,8 +33,8 @@ int Pacote::getDestino(){
     return armazemDestino;
 }
 
-int Pacote::getTempo(){
-    return tempo;
+int Pacote::getTempoPostagem(){
+    return tempoPostagem;
 }
 
 void Pacote::avancarRota() {
@@ -66,7 +66,7 @@ void Pacote::imprimirPacote() const {
     std::cout << "Pacote ID: " << id << std::endl;
     std::cout << "Origem: Armazém " << armazemOrigem << std::endl;
     std::cout << "Destino: Armazém " << armazemDestino << std::endl;
-    std::cout << "Tempo de Chegada: " << tempo << std::endl;
+    std::cout << "Tempo de Chegada: " << tempoPostagem << std::endl;
     
     // Imprimir a rota do pacote
     std::cout << "Rota do Pacote: ";

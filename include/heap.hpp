@@ -9,8 +9,8 @@ public:
     Heap(int maxsize);
     ~Heap();
 
-    void Inserir(long long int x);  // Alterado para long long int
-    long long int Remover();        // Alterado para long long int
+    void Inserir(__uint128_t  x);  // Alterado para __uint128_t 
+    __uint128_t  Remover();        // Alterado para __uint128_t 
 
     bool Vazio();
 
@@ -20,7 +20,7 @@ private:
     int GetSucessorDir(int posicao);
 
     int tamanho;
-    long long int* data;  // Alterado para long long int
+    __uint128_t * data;  // Alterado para __uint128_t 
     int capacidade;        // Declaração da variável capacidade
 
     void HeapifyPorBaixo(int posicao);
